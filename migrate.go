@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"github.com/xxx-newbee/go-micro/user/internal/config"
-	"github.com/xxx-newbee/go-micro/user/internal/dao"
-	"github.com/xxx-newbee/go-micro/user/internal/model"
+	"github.com/xxx-newbee/user/internal/config"
+	"github.com/xxx-newbee/user/internal/dao"
+	"github.com/xxx-newbee/user/internal/model"
 	"log"
 
 	"github.com/zeromicro/go-zero/core/conf"

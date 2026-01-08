@@ -2,7 +2,7 @@ package dao
 
 import (
 	"errors"
-	"github.com/xxx-newbee/go-micro/user/internal/model"
+	"github.com/xxx-newbee/user/internal/model"
 
 	"gorm.io/gorm"
 )

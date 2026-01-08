@@ -2,8 +2,8 @@ package dao
 
 import (
 	"context"
-	"github.com/xxx-newbee/go-micro/user/internal/config"
-	"github.com/xxx-newbee/go-micro/user/internal/model"
+	"github.com/xxx-newbee/user/internal/config"
+	"github.com/xxx-newbee/user/internal/model"
 	"time"
 
 	"gorm.io/driver/postgres"

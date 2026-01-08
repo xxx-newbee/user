@@ -4,11 +4,11 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/xxx-newbee/go-micro/user/internal/config"
-	"github.com/xxx-newbee/go-micro/user/internal/dao"
-	"github.com/xxx-newbee/go-micro/user/internal/server"
-	"github.com/xxx-newbee/go-micro/user/internal/svc"
-	"github.com/xxx-newbee/go-micro/user/user"
+	"github.com/xxx-newbee/user/internal/config"
+	"github.com/xxx-newbee/user/internal/dao"
+	"github.com/xxx-newbee/user/internal/server"
+	"github.com/xxx-newbee/user/internal/svc"
+	"github.com/xxx-newbee/user/user"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

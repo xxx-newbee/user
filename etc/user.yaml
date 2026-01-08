@@ -1,5 +1,5 @@
 Name: user.rpc
-ListenOn: 0.0.0.0:8081
+ListenOn: 0.0.0.0:8080
 Mode: dev
 
 # Etcd注册（必须，网关才能发现）

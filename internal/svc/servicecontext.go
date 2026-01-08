@@ -1,7 +1,7 @@
 package svc
 
 import (
-	"github.com/xxx-newbee/go-micro/user/internal/config"
+	"github.com/xxx-newbee/user/internal/config"
 )
 
 type ServiceContext struct {

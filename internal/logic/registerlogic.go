@@ -3,11 +3,11 @@ package logic
 import (
 	"context"
 
-	"github.com/xxx-newbee/go-micro/user/internal/dao"
-	"github.com/xxx-newbee/go-micro/user/internal/logic/utils"
-	"github.com/xxx-newbee/go-micro/user/internal/model"
-	"github.com/xxx-newbee/go-micro/user/internal/svc"
-	"github.com/xxx-newbee/go-micro/user/user"
+	"github.com/xxx-newbee/user/internal/dao"
+	"github.com/xxx-newbee/user/internal/logic/utils"
+	"github.com/xxx-newbee/user/internal/model"
+	"github.com/xxx-newbee/user/internal/svc"
+	"github.com/xxx-newbee/user/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

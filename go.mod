@@ -1,4 +1,4 @@
-module github.com/xxx-newbee/go-micro/user
+module github.com/xxx-newbee/user
 
 go 1.24.11
 

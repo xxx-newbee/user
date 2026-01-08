@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"github.com/xxx-newbee/go-micro/user/internal/logic"
-	"github.com/xxx-newbee/go-micro/user/internal/svc"
-	"github.com/xxx-newbee/go-micro/user/user"
+	"github.com/xxx-newbee/user/internal/logic"
+	"github.com/xxx-newbee/user/internal/svc"
+	"github.com/xxx-newbee/user/user"
 )
 
 type UserServer struct {
