@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+  string nickname = 3;
+  string wallet_addr = 4;
+  string referral_code = 5;
+}
+
+message RegisterResponse {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string wallet_addr = 4;
+  string user_referral_code = 5;
+  string referral_code = 6;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  int64 user_id = 2;
+  string username = 3;
+  string nickname = 4;
+  string wallet_addr = 5;
+  string user_referral_code = 6;
+  string referral_code = 7;
+}
+
+message GetUserInfoRequest {
+}
+
+message GetUserInfoResponse {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string wallet_addr = 4;
+  string user_referral_code = 5;
+  string referral_code = 6;
+}
+
+service User {
+  rpc Register(RegisterRequest) returns(RegisterResponse);
+  rpc Login(LoginRequest) returns(LoginResponse);
+  rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse);
+}

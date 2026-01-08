@@ -1,0 +1,29 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8081
+Mode: dev
+
+# Etcd注册（必须，网关才能发现）
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+
+# # 数据库配置（对接原go-admin的user表）
+Mysql:
+  DataSource: "host=0.0.0.0 user=huangjg password=huangjg@1001 dbname=go-micro port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+  MaxOpenConns: 100
+  MaxIdleConns: 20
+  ConnMaxLifetime: 3600
+
+JWT:
+  Secret: "ABCDEFG" # 生产环境放环境变量
+  AccessExpire: 3600                       # accessToken过期时间（秒）：1小时
+  RefreshExpire: 604800                    # refreshToken过期时间（秒）：7天
+
+# Redis缓存（用户信息缓存）
+# Redis:
+#   Host: 0.0.0.0:6379
+#   Key: user_cache
+#   Pass: ""
+#   DB: 0
+#   PoolSize: 20
