@@ -1,10 +1,13 @@
 FROM golang:1.24-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN go mod tidy && go build -o user-srv ./user
+RUN go env -w GO111MODULE=on
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go mod tidy && go build -o /app/user-srv ./
 
 FROM alpine
 WORKDIR /app
-COPY --from=builder /app/user-srv .
-COPY --from=builder /app/user/etc /app/etc
-CMD ["./user-srv", "-f", "etc/user.yaml"]
+COPY --from=builder /app/user-srv /app/user-srv
+RUN chmod +x /app/user-srv
+
+ENTRYPOINT ["/app/user-srv"]

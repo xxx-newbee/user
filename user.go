@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/xxx-newbee/user/internal/config"
 	"github.com/xxx-newbee/user/internal/dao"
+	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/server"
 	"github.com/xxx-newbee/user/internal/svc"
 	"github.com/xxx-newbee/user/user"
@@ -25,6 +27,9 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	dao.InitMysql(c)
+	if err := dao.AutoMigrate(&model.User{}); err != nil {
+		log.Fatal(err)
+	}
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {

@@ -2,15 +2,17 @@ Name: user.rpc
 ListenOn: 0.0.0.0:8080
 Mode: dev
 
-# Etcd注册（必须，网关才能发现）
+# Etcd注册
 Etcd:
   Hosts:
-    - 127.0.0.1:2379
+    - 172.10.0.3:2379
   Key: user.rpc
 
-# # 数据库配置（对接原go-admin的user表）
+
+
+# 数据库配置 user:password@tcp(127.0.0.1:3306)/db?charset=utf8mb4&parseTime=True&loc=Local
 Mysql:
-  DataSource: "host=0.0.0.0 user=huangjg password=huangjg@1001 dbname=go-micro port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+  DataSource: "host=172.10.0.2 user=huangjg password=huangjg@1001 dbname=go-micro port=5432 sslmode=disable"
   MaxOpenConns: 100
   MaxIdleConns: 20
   ConnMaxLifetime: 3600
