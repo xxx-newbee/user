@@ -2,6 +2,7 @@ package dao
 
 import (
 	"errors"
+
 	"github.com/xxx-newbee/user/internal/model"
 
 	"gorm.io/gorm"
@@ -27,11 +28,6 @@ func (dao *UserDao) GetByUsername(username string) (*model.User, error) {
 	return &user, nil
 }
 
-func (dao *UserDao) Create(user model.User) error {
-	result := dao.db.Create(&user)
-	return result.Error
-}
-
 func (dao *UserDao) GetByID(id uint) (*model.User, error) {
 	var user model.User
 	result := dao.db.First(&user, id)
@@ -42,4 +38,14 @@ func (dao *UserDao) GetByID(id uint) (*model.User, error) {
 		return nil, result.Error
 	}
 	return &user, nil
+}
+
+func (dao *UserDao) Create(user model.User) error {
+	result := dao.db.Create(&user)
+	return result.Error
+}
+
+func (dao *UserDao) Update(user *model.User) error {
+	result := dao.db.Save(&user)
+	return result.Error
 }
