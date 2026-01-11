@@ -48,8 +48,17 @@ message GetUserInfoResponse {
   string referral_code = 6;
 }
 
+message UpdateUserInfoReqest {
+  string nickname = 1;
+  string password = 2;
+  string wallet_addr = 3;
+}
+
+message UpdateUserInfoResponse {}
+
 service User {
   rpc Register(RegisterRequest) returns(RegisterResponse);
   rpc Login(LoginRequest) returns(LoginResponse);
   rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse);
+  rpc UpdateUserInfo(UpdateUserInfoReqest) returns(UpdateUserInfoResponse);
 }
