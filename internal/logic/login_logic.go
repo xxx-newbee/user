@@ -27,6 +27,8 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
+	// todo: add your logic here and delete this line
+
 	user_dao := dao.NewUserDao()
 	res, err := user_dao.GetByUsername(in.Username)
 	if err != nil {
@@ -45,7 +47,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	}
 
 	// jwt token generation can be added here
-	token, err := utils.GenerateJWTToken(int64(res.ID), res.Username, l.svcCtx.Config.JWT.Secret)
+	token, err := utils.GenerateJWTToken(int64(res.ID), res.Username, l.svcCtx.Config.JWT.Secret, res.TokenVersion)
 	if err != nil {
 		return nil, err
 	}

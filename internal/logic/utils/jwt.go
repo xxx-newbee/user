@@ -7,17 +7,18 @@ import (
 )
 
 type JWTClaims struct {
-	UserID   int64  `json:"user_id"`
-	Username string `json:"username"`
+	UserID       int64  `json:"user_id"`
+	Username     string `json:"username"`
+	TokenVersion int    `json:"token_version"`
 	jwt.RegisteredClaims
 }
 
-func GenerateJWTToken(userID int64, username, secret string) (string, error) {
+func GenerateJWTToken(userID int64, username, secret string, version int) (string, error) {
 	claims := JWTClaims{
-		UserID:   userID,
-		Username: username,
+		UserID:       userID,
+		Username:     username,
+		TokenVersion: version,
 		RegisteredClaims: jwt.RegisteredClaims{
-			// You can set token expiration and other claims here
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			Issuer:    "go-admin-micro/user",

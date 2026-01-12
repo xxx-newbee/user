@@ -27,6 +27,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterResponse, error) {
+	// todo: add your logic here and delete this line
 	if in.Username == "" || in.Password == "" {
 		return nil, model.ErrUsernameOrPasswordEmpty
 	}
@@ -56,6 +57,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		Wallet:           in.WalletAddr,
 		UserReferralCode: referralCode,
 		ReferralCode:     in.ReferralCode,
+		TokenVersion:     0,
 	}
 
 	if err := user_dao.Create(*newUser); err != nil {

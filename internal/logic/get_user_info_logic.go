@@ -6,11 +6,12 @@ import (
 
 	"github.com/xxx-newbee/user/internal/dao"
 	"github.com/xxx-newbee/user/internal/logic/utils"
+	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
 	"github.com/xxx-newbee/user/user"
+	"google.golang.org/grpc/metadata"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"google.golang.org/grpc/metadata"
 )
 
 type GetUserInfoLogic struct {
@@ -28,12 +29,13 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoRequest) (*user.GetUserInfoResponse, error) {
-	md, ok := metadata.FromIncomingContext(l.ctx)
+	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
 		return nil, errors.New("metadata not found in context")
 	}
 
-	tokenStrs := md.Get("Authorization")
+	tokenStrs := MD.Get("Authorization")
+
 	if len(tokenStrs) == 0 {
 		return nil, errors.New("illegal usage")
 	}
@@ -44,12 +46,18 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoRequest) (*user.GetUs
 		return nil, err
 	}
 
-	userId := claims.UserID
+	username := claims.Username
 
 	userDao := dao.NewUserDao()
-	res, err := userDao.GetByID(uint(userId))
+	res, err := userDao.GetByUsername(username)
 	if err != nil {
 		return nil, err
+	}
+	if res == nil {
+		return nil, model.ErrUserNotFound
+	}
+	if res.TokenVersion != claims.TokenVersion {
+		return nil, model.ErrTokenExpired
 	}
 
 	return &user.GetUserInfoResponse{
@@ -60,4 +68,6 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoRequest) (*user.GetUs
 		UserReferralCode: res.UserReferralCode,
 		ReferralCode:     res.ReferralCode,
 	}, nil
+
+	return &user.GetUserInfoResponse{}, nil
 }

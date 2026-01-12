@@ -42,3 +42,8 @@ func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateUserInfo
 	l := logic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserInfo(in)
 }
+
+func (s *UserServer) ChangePassword(ctx context.Context, in *user.ChangePassWdRequest) (*user.ChangePassWdResponse, error) {
+	l := logic.NewChangePasswordLogic(ctx, s.svcCtx)
+	return l.ChangePassword(in)
+}

@@ -6,6 +6,7 @@ import (
 
 	"github.com/xxx-newbee/user/internal/dao"
 	"github.com/xxx-newbee/user/internal/logic/utils"
+	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
 	"github.com/xxx-newbee/user/user"
 	"google.golang.org/grpc/metadata"
@@ -28,12 +29,13 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*user.UpdateUserInfoResponse, error) {
-	md, ok := metadata.FromIncomingContext(l.ctx)
+	// todo: add your logic here and delete this line
+	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
 		return nil, errors.New("metadata not found in context")
 	}
 
-	tokenStrs := md.Get("Authorization")
+	tokenStrs := MD.Get("Authorization")
 	if len(tokenStrs) == 0 {
 		return nil, errors.New("illegal usage")
 	}
@@ -44,30 +46,31 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 		return nil, err
 	}
 
-	userId := claims.UserID
+	username := claims.Username
 
 	userDao := dao.NewUserDao()
-	res, err := userDao.GetByID(uint(userId))
+	res, err := userDao.GetByUsername(username)
 	if err != nil {
 		return nil, err
 	}
-
+	if res == nil || res.ID == 0 {
+		return nil, model.ErrUserNotFound
+	}
+	if res.TokenVersion != claims.TokenVersion {
+		return nil, model.ErrTokenExpired
+	}
 	if in.Nickname != "" {
 		res.Nickname = in.Nickname
 	}
 
-	// 要更改钱包地址和密码还需要进行密码进一步去验证，仅依靠token验证不安全
+	// 要更改钱包地址还需要进行密码进一步去验证，仅依靠token不安全
 	if in.WalletAddr != "" {
 		res.Wallet = in.WalletAddr
 	}
-	if in.Password != "" {
-		hashedPassword, err := utils.EncryptPassword(in.Password)
-		if err != nil {
-			return nil, err
-		}
-		res.Password = hashedPassword
+
+	if err = userDao.Update(res); err != nil {
+		return nil, model.ErrUpdateUserFailed
 	}
 
-	userDao.Update(res)
 	return &user.UpdateUserInfoResponse{}, nil
 }
