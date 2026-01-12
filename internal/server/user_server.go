@@ -38,12 +38,12 @@ func (s *UserServer) GetUserInfo(ctx context.Context, in *user.GetUserInfoReques
 	return l.GetUserInfo(in)
 }
 
-func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateUserInfoReqest) (*user.UpdateUserInfoResponse, error) {
+func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateUserInfoReqest) (*user.UpdateResponse, error) {
 	l := logic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserInfo(in)
 }
 
-func (s *UserServer) ChangePassword(ctx context.Context, in *user.ChangePassWdRequest) (*user.ChangePassWdResponse, error) {
+func (s *UserServer) ChangePassword(ctx context.Context, in *user.ChangePassWdRequest) (*user.UpdateResponse, error) {
 	l := logic.NewChangePasswordLogic(ctx, s.svcCtx)
 	return l.ChangePassword(in)
 }

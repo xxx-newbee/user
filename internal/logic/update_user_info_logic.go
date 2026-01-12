@@ -28,7 +28,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*user.UpdateUserInfoResponse, error) {
+func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*user.UpdateResponse, error) {
 	// todo: add your logic here and delete this line
 	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
@@ -72,5 +72,8 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 		return nil, model.ErrUpdateUserFailed
 	}
 
-	return &user.UpdateUserInfoResponse{}, nil
+	return &user.UpdateResponse{
+		Status: "success",
+		Msg:    "",
+	}, nil
 }

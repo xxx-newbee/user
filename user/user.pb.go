@@ -497,42 +497,6 @@ func (x *UpdateUserInfoReqest) GetWalletAddr() string {
 	return ""
 }
 
-type UpdateUserInfoResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateUserInfoResponse) Reset() {
-	*x = UpdateUserInfoResponse{}
-	mi := &file_user_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateUserInfoResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateUserInfoResponse) ProtoMessage() {}
-
-func (x *UpdateUserInfoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateUserInfoResponse.ProtoReflect.Descriptor instead.
-func (*UpdateUserInfoResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{7}
-}
-
 type ChangePassWdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Old           string                 `protobuf:"bytes,1,opt,name=old,proto3" json:"old,omitempty"`
@@ -543,7 +507,7 @@ type ChangePassWdRequest struct {
 
 func (x *ChangePassWdRequest) Reset() {
 	*x = ChangePassWdRequest{}
-	mi := &file_user_proto_msgTypes[8]
+	mi := &file_user_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -555,7 +519,7 @@ func (x *ChangePassWdRequest) String() string {
 func (*ChangePassWdRequest) ProtoMessage() {}
 
 func (x *ChangePassWdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[8]
+	mi := &file_user_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -568,7 +532,7 @@ func (x *ChangePassWdRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChangePassWdRequest.ProtoReflect.Descriptor instead.
 func (*ChangePassWdRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{8}
+	return file_user_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ChangePassWdRequest) GetOld() string {
@@ -585,7 +549,7 @@ func (x *ChangePassWdRequest) GetNew() string {
 	return ""
 }
 
-type ChangePassWdResponse struct {
+type UpdateResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
@@ -593,21 +557,21 @@ type ChangePassWdResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ChangePassWdResponse) Reset() {
-	*x = ChangePassWdResponse{}
-	mi := &file_user_proto_msgTypes[9]
+func (x *UpdateResponse) Reset() {
+	*x = UpdateResponse{}
+	mi := &file_user_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ChangePassWdResponse) String() string {
+func (x *UpdateResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ChangePassWdResponse) ProtoMessage() {}
+func (*UpdateResponse) ProtoMessage() {}
 
-func (x *ChangePassWdResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[9]
+func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -618,19 +582,19 @@ func (x *ChangePassWdResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ChangePassWdResponse.ProtoReflect.Descriptor instead.
-func (*ChangePassWdResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{9}
+// Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
+func (*UpdateResponse) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *ChangePassWdResponse) GetStatus() string {
+func (x *UpdateResponse) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *ChangePassWdResponse) GetMsg() string {
+func (x *UpdateResponse) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
@@ -682,20 +646,19 @@ const file_user_proto_rawDesc = "" +
 	"\x14UpdateUserInfoReqest\x12\x1a\n" +
 	"\bnickname\x18\x01 \x01(\tR\bnickname\x12\x1f\n" +
 	"\vwallet_addr\x18\x02 \x01(\tR\n" +
-	"walletAddr\"\x18\n" +
-	"\x16UpdateUserInfoResponse\"9\n" +
+	"walletAddr\"9\n" +
 	"\x13ChangePassWdRequest\x12\x10\n" +
 	"\x03old\x18\x01 \x01(\tR\x03old\x12\x10\n" +
-	"\x03new\x18\x02 \x01(\tR\x03new\"@\n" +
-	"\x14ChangePassWdResponse\x12\x16\n" +
+	"\x03new\x18\x02 \x01(\tR\x03new\":\n" +
+	"\x0eUpdateResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12\x10\n" +
-	"\x03msg\x18\x02 \x01(\tR\x03msg2\xcc\x02\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg2\xbe\x02\n" +
 	"\x04User\x129\n" +
 	"\bRegister\x12\x15.user.RegisterRequest\x1a\x16.user.RegisterResponse\x120\n" +
 	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\x12B\n" +
-	"\vGetUserInfo\x12\x18.user.GetUserInfoRequest\x1a\x19.user.GetUserInfoResponse\x12J\n" +
-	"\x0eUpdateUserInfo\x12\x1a.user.UpdateUserInfoReqest\x1a\x1c.user.UpdateUserInfoResponse\x12G\n" +
-	"\x0eChangePassword\x12\x19.user.ChangePassWdRequest\x1a\x1a.user.ChangePassWdResponseB\bZ\x06./userb\x06proto3"
+	"\vGetUserInfo\x12\x18.user.GetUserInfoRequest\x1a\x19.user.GetUserInfoResponse\x12B\n" +
+	"\x0eUpdateUserInfo\x12\x1a.user.UpdateUserInfoReqest\x1a\x14.user.UpdateResponse\x12A\n" +
+	"\x0eChangePassword\x12\x19.user.ChangePassWdRequest\x1a\x14.user.UpdateResponseB\bZ\x06./userb\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once
@@ -709,30 +672,29 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_user_proto_goTypes = []any{
-	(*RegisterRequest)(nil),        // 0: user.RegisterRequest
-	(*RegisterResponse)(nil),       // 1: user.RegisterResponse
-	(*LoginRequest)(nil),           // 2: user.LoginRequest
-	(*LoginResponse)(nil),          // 3: user.LoginResponse
-	(*GetUserInfoRequest)(nil),     // 4: user.GetUserInfoRequest
-	(*GetUserInfoResponse)(nil),    // 5: user.GetUserInfoResponse
-	(*UpdateUserInfoReqest)(nil),   // 6: user.UpdateUserInfoReqest
-	(*UpdateUserInfoResponse)(nil), // 7: user.UpdateUserInfoResponse
-	(*ChangePassWdRequest)(nil),    // 8: user.ChangePassWdRequest
-	(*ChangePassWdResponse)(nil),   // 9: user.ChangePassWdResponse
+	(*RegisterRequest)(nil),      // 0: user.RegisterRequest
+	(*RegisterResponse)(nil),     // 1: user.RegisterResponse
+	(*LoginRequest)(nil),         // 2: user.LoginRequest
+	(*LoginResponse)(nil),        // 3: user.LoginResponse
+	(*GetUserInfoRequest)(nil),   // 4: user.GetUserInfoRequest
+	(*GetUserInfoResponse)(nil),  // 5: user.GetUserInfoResponse
+	(*UpdateUserInfoReqest)(nil), // 6: user.UpdateUserInfoReqest
+	(*ChangePassWdRequest)(nil),  // 7: user.ChangePassWdRequest
+	(*UpdateResponse)(nil),       // 8: user.UpdateResponse
 }
 var file_user_proto_depIdxs = []int32{
 	0, // 0: user.User.Register:input_type -> user.RegisterRequest
 	2, // 1: user.User.Login:input_type -> user.LoginRequest
 	4, // 2: user.User.GetUserInfo:input_type -> user.GetUserInfoRequest
 	6, // 3: user.User.UpdateUserInfo:input_type -> user.UpdateUserInfoReqest
-	8, // 4: user.User.ChangePassword:input_type -> user.ChangePassWdRequest
+	7, // 4: user.User.ChangePassword:input_type -> user.ChangePassWdRequest
 	1, // 5: user.User.Register:output_type -> user.RegisterResponse
 	3, // 6: user.User.Login:output_type -> user.LoginResponse
 	5, // 7: user.User.GetUserInfo:output_type -> user.GetUserInfoResponse
-	7, // 8: user.User.UpdateUserInfo:output_type -> user.UpdateUserInfoResponse
-	9, // 9: user.User.ChangePassword:output_type -> user.ChangePassWdResponse
+	8, // 8: user.User.UpdateUserInfo:output_type -> user.UpdateResponse
+	8, // 9: user.User.ChangePassword:output_type -> user.UpdateResponse
 	5, // [5:10] is the sub-list for method output_type
 	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -751,7 +713,7 @@ func file_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_proto_rawDesc), len(file_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

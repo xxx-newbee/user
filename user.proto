@@ -53,14 +53,12 @@ message UpdateUserInfoReqest {
   string wallet_addr = 2;
 }
 
-message UpdateUserInfoResponse {}
-
 message ChangePassWdRequest {
   string old = 1;
   string new = 2;
 }
 
-message ChangePassWdResponse {
+message UpdateResponse {
   string status = 1;
   string msg = 2;
 }
@@ -69,6 +67,6 @@ service User {
   rpc Register(RegisterRequest) returns(RegisterResponse);
   rpc Login(LoginRequest) returns(LoginResponse);
   rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse);
-  rpc UpdateUserInfo(UpdateUserInfoReqest) returns(UpdateUserInfoResponse);
-  rpc ChangePassword(ChangePassWdRequest) returns(ChangePassWdResponse);
+  rpc UpdateUserInfo(UpdateUserInfoReqest) returns(UpdateResponse);
+  rpc ChangePassword(ChangePassWdRequest) returns(UpdateResponse);
 }

@@ -33,8 +33,8 @@ type UserClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
-	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateUserInfoResponse, error)
-	ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*ChangePassWdResponse, error)
+	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 }
 
 type userClient struct {
@@ -72,8 +72,8 @@ func (c *userClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, op
 	return out, nil
 }
 
-func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateUserInfoResponse, error) {
-	out := new(UpdateUserInfoResponse)
+func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
 	err := c.cc.Invoke(ctx, User_UpdateUserInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -81,8 +81,8 @@ func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqes
 	return out, nil
 }
 
-func (c *userClient) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*ChangePassWdResponse, error) {
-	out := new(ChangePassWdResponse)
+func (c *userClient) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
 	err := c.cc.Invoke(ctx, User_ChangePassword_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,8 +97,8 @@ type UserServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
-	UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*UpdateUserInfoResponse, error)
-	ChangePassword(context.Context, *ChangePassWdRequest) (*ChangePassWdResponse, error)
+	UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*UpdateResponse, error)
+	ChangePassword(context.Context, *ChangePassWdRequest) (*UpdateResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -115,10 +115,10 @@ func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResp
 func (UnimplementedUserServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
-func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*UpdateUserInfoResponse, error) {
+func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
 }
-func (UnimplementedUserServer) ChangePassword(context.Context, *ChangePassWdRequest) (*ChangePassWdResponse, error) {
+func (UnimplementedUserServer) ChangePassword(context.Context, *ChangePassWdRequest) (*UpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}

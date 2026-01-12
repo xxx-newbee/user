@@ -28,7 +28,7 @@ func NewChangePasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ch
 	}
 }
 
-func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*user.ChangePassWdResponse, error) {
+func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*user.UpdateResponse, error) {
 	// todo: add your logic here and delete this line
 	if in.Old == "" || in.New == "" {
 		return nil, model.ErrPasswordEmpty
@@ -75,5 +75,5 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*use
 		return nil, model.ErrChangePasswordFailed
 	}
 
-	return &user.ChangePassWdResponse{Status: "ok", Msg: "密码修改成功"}, nil
+	return &user.UpdateResponse{Status: "success", Msg: "密码修改成功"}, nil
 }

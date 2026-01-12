@@ -14,23 +14,22 @@ import (
 )
 
 type (
-	ChangePassWdRequest    = user.ChangePassWdRequest
-	ChangePassWdResponse   = user.ChangePassWdResponse
-	GetUserInfoRequest     = user.GetUserInfoRequest
-	GetUserInfoResponse    = user.GetUserInfoResponse
-	LoginRequest           = user.LoginRequest
-	LoginResponse          = user.LoginResponse
-	RegisterRequest        = user.RegisterRequest
-	RegisterResponse       = user.RegisterResponse
-	UpdateUserInfoReqest   = user.UpdateUserInfoReqest
-	UpdateUserInfoResponse = user.UpdateUserInfoResponse
+	ChangePassWdRequest  = user.ChangePassWdRequest
+	GetUserInfoRequest   = user.GetUserInfoRequest
+	GetUserInfoResponse  = user.GetUserInfoResponse
+	LoginRequest         = user.LoginRequest
+	LoginResponse        = user.LoginResponse
+	RegisterRequest      = user.RegisterRequest
+	RegisterResponse     = user.RegisterResponse
+	UpdateResponse       = user.UpdateResponse
+	UpdateUserInfoReqest = user.UpdateUserInfoReqest
 
 	User interface {
 		Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 		Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
-		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateUserInfoResponse, error)
-		ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*ChangePassWdResponse, error)
+		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error)
+		ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	}
 
 	defaultUser struct {
@@ -59,12 +58,12 @@ func (m *defaultUser) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, o
 	return client.GetUserInfo(ctx, in, opts...)
 }
 
-func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateUserInfoResponse, error) {
+func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateUserInfo(ctx, in, opts...)
 }
 
-func (m *defaultUser) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*ChangePassWdResponse, error) {
+func (m *defaultUser) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.ChangePassword(ctx, in, opts...)
 }
