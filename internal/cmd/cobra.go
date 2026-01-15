@@ -30,7 +30,7 @@ var rootCmd = &cobra.Command{
 }
 
 func tip() {
-	usageStr := `欢迎使用服务`
+	usageStr := `欢迎使用服务，请使用 -h 查看命令`
 	fmt.Printf("%s\n", usageStr)
 }
 
