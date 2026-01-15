@@ -2,10 +2,9 @@ package dao
 
 import (
 	"context"
-	"github.com/xxx-newbee/user/internal/config"
-	"github.com/xxx-newbee/user/internal/model"
 	"time"
 
+	"github.com/xxx-newbee/user/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -32,7 +31,6 @@ func InitMysql(c config.Config) {
 		panic("failed to ping database: " + err.Error())
 	}
 	println("✅ MySQL connected successfully")
-	db.AutoMigrate(&model.User{})
 }
 
 func GetDB() *gorm.DB {
