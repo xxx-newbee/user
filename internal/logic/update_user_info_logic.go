@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/xxx-newbee/user/internal/dao"
 	"github.com/xxx-newbee/user/internal/logic/utils"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
@@ -28,7 +27,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*user.UpdateResponse, error) {
+func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*user.Empty, error) {
 	// todo: add your logic here and delete this line
 	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
@@ -48,8 +47,9 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 
 	username := claims.Username
 
-	userDao := dao.NewUserDao()
-	res, err := userDao.GetByUsername(username)
+	//userDao := dao.NewUserDao()
+	//res, err := userDao.GetByUsername(username)
+	res, err := model.GetByUsername(l.svcCtx.Database, username)
 	if err != nil {
 		return nil, err
 	}
@@ -68,12 +68,11 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 		res.Wallet = in.WalletAddr
 	}
 
-	if err = userDao.Update(res); err != nil {
+	//if err = userDao.Update(res); err != nil {
+	//	return nil, model.ErrUpdateUserFailed
+	//}
+	if model.UpdateUser(l.svcCtx.Database, res) == nil {
 		return nil, model.ErrUpdateUserFailed
 	}
-
-	return &user.UpdateResponse{
-		Status: "success",
-		Msg:    "",
-	}, nil
+	return nil, nil
 }

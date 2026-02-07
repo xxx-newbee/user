@@ -3,8 +3,8 @@ package logic
 import (
 	"context"
 	"errors"
+	"strings"
 
-	"github.com/xxx-newbee/user/internal/dao"
 	"github.com/xxx-newbee/user/internal/logic/utils"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
@@ -28,19 +28,22 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoRequest) (*user.GetUserInfoResponse, error) {
+func (l *GetUserInfoLogic) GetUserInfo(*user.Empty) (*user.GetUserInfoResponse, error) {
 	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
 		return nil, errors.New("metadata not found in context")
 	}
 
-	tokenStrs := MD.Get("Authorization")
+	tokenStrs := MD.Get("authorization")
 
-	if len(tokenStrs) == 0 {
+	if len(tokenStrs) == 0 || (len(tokenStrs) == 1 && tokenStrs[0] == "") {
 		return nil, errors.New("illegal usage")
 	}
-
 	tokenStr := tokenStrs[0]
+	if strings.HasPrefix(tokenStr, "Bearer ") {
+		tokenStr = strings.TrimPrefix(tokenStr, "Bearer ")
+	}
+
 	claims, err := utils.ParseJWTToken(tokenStr, l.svcCtx.Config.JWT.Secret)
 	if err != nil {
 		return nil, err
@@ -48,8 +51,7 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoRequest) (*user.GetUs
 
 	username := claims.Username
 
-	userDao := dao.NewUserDao()
-	res, err := userDao.GetByUsername(username)
+	res, err := model.GetByUsername(l.svcCtx.Database, username)
 	if err != nil {
 		return nil, err
 	}

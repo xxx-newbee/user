@@ -4,12 +4,16 @@ package user;
 
 option go_package = "./user";
 
+message Empty {}
+
 message RegisterRequest {
   string username = 1;
   string password = 2;
   string nickname = 3;
   string wallet_addr = 4;
   string referral_code = 5;
+  string captcha_id = 6;
+  string captcha_code = 7;
 }
 
 message RegisterResponse {
@@ -24,6 +28,8 @@ message RegisterResponse {
 message LoginRequest {
   string username = 1;
   string password = 2;
+  string captcha_id = 3;
+  string captcha_code = 4;
 }
 
 message LoginResponse {
@@ -34,9 +40,6 @@ message LoginResponse {
   string wallet_addr = 5;
   string user_referral_code = 6;
   string referral_code = 7;
-}
-
-message GetUserInfoRequest {
 }
 
 message GetUserInfoResponse {
@@ -58,15 +61,17 @@ message ChangePassWdRequest {
   string new = 2;
 }
 
-message UpdateResponse {
-  string status = 1;
-  string msg = 2;
+message CaptchaResponse {
+  string captcha_id = 1;
+  string img_base64 = 2;
 }
 
+
 service User {
-  rpc Register(RegisterRequest) returns(RegisterResponse);
-  rpc Login(LoginRequest) returns(LoginResponse);
-  rpc GetUserInfo(GetUserInfoRequest) returns(GetUserInfoResponse);
-  rpc UpdateUserInfo(UpdateUserInfoReqest) returns(UpdateResponse);
-  rpc ChangePassword(ChangePassWdRequest) returns(UpdateResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc GetUserInfo (Empty) returns (GetUserInfoResponse);
+  rpc UpdateUserInfo (UpdateUserInfoReqest) returns (Empty);
+  rpc ChangePassword (ChangePassWdRequest) returns (Empty);
+  rpc GenerateCaptcha (Empty) returns (CaptchaResponse);
 }

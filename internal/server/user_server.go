@@ -33,17 +33,22 @@ func (s *UserServer) Login(ctx context.Context, in *user.LoginRequest) (*user.Lo
 	return l.Login(in)
 }
 
-func (s *UserServer) GetUserInfo(ctx context.Context, in *user.GetUserInfoRequest) (*user.GetUserInfoResponse, error) {
+func (s *UserServer) GetUserInfo(ctx context.Context, in *user.Empty) (*user.GetUserInfoResponse, error) {
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
 }
 
-func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateUserInfoReqest) (*user.UpdateResponse, error) {
+func (s *UserServer) UpdateUserInfo(ctx context.Context, in *user.UpdateUserInfoReqest) (*user.Empty, error) {
 	l := logic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserInfo(in)
 }
 
-func (s *UserServer) ChangePassword(ctx context.Context, in *user.ChangePassWdRequest) (*user.UpdateResponse, error) {
+func (s *UserServer) ChangePassword(ctx context.Context, in *user.ChangePassWdRequest) (*user.Empty, error) {
 	l := logic.NewChangePasswordLogic(ctx, s.svcCtx)
 	return l.ChangePassword(in)
+}
+
+func (s *UserServer) GenerateCaptcha(ctx context.Context, in *user.Empty) (*user.CaptchaResponse, error) {
+	l := logic.NewGenerateCaptchaLogic(ctx, s.svcCtx)
+	return l.GenerateCaptcha(in)
 }

@@ -9,8 +9,8 @@ Etcd:
   Key: user.rpc
 
 
-# 数据库配置
-Mysql:
+# postgres 数据库配置
+Database:
   DataSource: "host=127.0.0.1 user=huangjg password=huangjg@1001 dbname=go-micro port=5432 sslmode=disable"
   MaxOpenConns: 100
   MaxIdleConns: 20
@@ -21,10 +21,31 @@ JWT:
   AccessExpire: 3600                       # accessToken过期时间（秒）：1小时
   RefreshExpire: 604800                    # refreshToken过期时间（秒）：7天
 
-# Redis缓存（用户信息缓存）
-# Redis:
-#   Host: 0.0.0.0:6379
-#   Key: user_cache
-#   Pass: ""
-#   DB: 0
-#   PoolSize: 20
+# 缓存配置
+Cache:
+  Redis:
+    Addr: 0.0.0.0:6379
+    Password: ""
+    DB: 0
+  Memory: ""
+
+# 消息队列配置
+Queue:
+  Memory:
+    PoolSize: 100
+  Redis:
+    Addr: 0.0.0.0:6379
+    Password: ""
+    DB: 1
+    Prefix: "user"
+    MaxRetry: 3
+
+# 验证码生成配置
+Captcha:
+  Expire: 300          # 验证码过期时间（秒），默认10分钟
+  FontSize: 40         # 字体大小
+  ImgWidth: 180         # 图片宽度
+  ImgHeight: 60        # 图片高度
+  NoiseCount: 10        # 干扰系数
+  InterferenceCount: 3 # 干扰线数量（0=无，越高越难）
+  MathDifficulty: 6   # 算术验证码难度（0-10）

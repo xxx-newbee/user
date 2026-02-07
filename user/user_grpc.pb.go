@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_Register_FullMethodName       = "/user.User/Register"
-	User_Login_FullMethodName          = "/user.User/Login"
-	User_GetUserInfo_FullMethodName    = "/user.User/GetUserInfo"
-	User_UpdateUserInfo_FullMethodName = "/user.User/UpdateUserInfo"
-	User_ChangePassword_FullMethodName = "/user.User/ChangePassword"
+	User_Register_FullMethodName        = "/user.User/Register"
+	User_Login_FullMethodName           = "/user.User/Login"
+	User_GetUserInfo_FullMethodName     = "/user.User/GetUserInfo"
+	User_UpdateUserInfo_FullMethodName  = "/user.User/UpdateUserInfo"
+	User_ChangePassword_FullMethodName  = "/user.User/ChangePassword"
+	User_GenerateCaptcha_FullMethodName = "/user.User/GenerateCaptcha"
 )
 
 // UserClient is the client API for User service.
@@ -32,9 +33,10 @@ const (
 type UserClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
-	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error)
-	ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	GetUserInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*Empty, error)
+	ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*Empty, error)
+	GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CaptchaResponse, error)
 }
 
 type userClient struct {
@@ -63,7 +65,7 @@ func (c *userClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *userClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
+func (c *userClient) GetUserInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
 	out := new(GetUserInfoResponse)
 	err := c.cc.Invoke(ctx, User_GetUserInfo_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -72,8 +74,8 @@ func (c *userClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, op
 	return out, nil
 }
 
-func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error) {
-	out := new(UpdateResponse)
+func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, User_UpdateUserInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -81,9 +83,18 @@ func (c *userClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqes
 	return out, nil
 }
 
-func (c *userClient) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
-	out := new(UpdateResponse)
+func (c *userClient) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, User_ChangePassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CaptchaResponse, error) {
+	out := new(CaptchaResponse)
+	err := c.cc.Invoke(ctx, User_GenerateCaptcha_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,9 +107,10 @@ func (c *userClient) ChangePassword(ctx context.Context, in *ChangePassWdRequest
 type UserServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
-	UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*UpdateResponse, error)
-	ChangePassword(context.Context, *ChangePassWdRequest) (*UpdateResponse, error)
+	GetUserInfo(context.Context, *Empty) (*GetUserInfoResponse, error)
+	UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*Empty, error)
+	ChangePassword(context.Context, *ChangePassWdRequest) (*Empty, error)
+	GenerateCaptcha(context.Context, *Empty) (*CaptchaResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -112,14 +124,17 @@ func (UnimplementedUserServer) Register(context.Context, *RegisterRequest) (*Reg
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedUserServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
+func (UnimplementedUserServer) GetUserInfo(context.Context, *Empty) (*GetUserInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
-func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*UpdateResponse, error) {
+func (UnimplementedUserServer) UpdateUserInfo(context.Context, *UpdateUserInfoReqest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
 }
-func (UnimplementedUserServer) ChangePassword(context.Context, *ChangePassWdRequest) (*UpdateResponse, error) {
+func (UnimplementedUserServer) ChangePassword(context.Context, *ChangePassWdRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
+}
+func (UnimplementedUserServer) GenerateCaptcha(context.Context, *Empty) (*CaptchaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateCaptcha not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -171,7 +186,7 @@ func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 }
 
 func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserInfoRequest)
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -183,7 +198,7 @@ func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: User_GetUserInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUserInfo(ctx, req.(*GetUserInfoRequest))
+		return srv.(UserServer).GetUserInfo(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,6 +239,24 @@ func _User_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GenerateCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GenerateCaptcha(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GenerateCaptcha_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GenerateCaptcha(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChangePassword",
 			Handler:    _User_ChangePassword_Handler,
+		},
+		{
+			MethodName: "GenerateCaptcha",
+			Handler:    _User_GenerateCaptcha_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

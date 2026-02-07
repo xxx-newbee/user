@@ -23,7 +23,7 @@ func (u *User) TableName() string {
 
 var (
 	ErrUserAlreadyExist            = errors.New("user already exists")
-	ErrPasswordNeccessary          = errors.New("password is necessary")
+	ErrPasswordNecessary           = errors.New("password is necessary")
 	ErrUsernameOrPasswordEmpty     = errors.New("username or password cannot be empty")
 	ErrUserCreateFailed            = errors.New("failed to create user")
 	ErrUsernameOrPasswordIncorrect = errors.New("username or password is incorrect")
@@ -34,4 +34,37 @@ var (
 	ErrOldPasswordIncorrect        = errors.New("old password is incorrect")
 	ErrChangePasswordFailed        = errors.New("failed to change password")
 	ErrGenerateReferralCode        = errors.New("failed to generate referral code")
+	ErrCaptchaIncorrect            = errors.New("captcha is incorrect")
 )
+
+func GetByUsername(db *gorm.DB, username string) (*User, error) {
+	var user User
+	res := db.Table("sys_users").Where("username = ?", username).First(&user)
+	if res.Error != nil {
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, ErrUserNotFound
+	}
+	return &user, nil
+}
+
+func GetById(db *gorm.DB, id int) (*User, error) {
+	var user User
+	res := db.Table("sys_users").Where("id = ?", id).First(&user)
+	if res.Error != nil {
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			return nil, res.Error
+		}
+		return nil, ErrUserNotFound
+	}
+	return &user, nil
+}
+
+func CreateUser(db *gorm.DB, user *User) error {
+	return db.Table("sys_users").Create(&user).Error
+}
+
+func UpdateUser(db *gorm.DB, user *User) error {
+	return db.Table("sys_users").Save(&user).Error
+}

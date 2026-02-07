@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 
-	"github.com/xxx-newbee/user/internal/dao"
 	"github.com/xxx-newbee/user/internal/logic/utils"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
@@ -27,12 +26,17 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterResponse, error) {
-	// todo: add your logic here and delete this line
 	if in.Username == "" || in.Password == "" {
 		return nil, model.ErrUsernameOrPasswordEmpty
 	}
-	user_dao := dao.NewUserDao()
-	res, err := user_dao.GetByUsername(in.Username)
+
+	// 校验验证码
+	ck := l.svcCtx.CaptchaStore.Verify(in.CaptchaId, in.CaptchaCode, true)
+	if ck != true {
+		return nil, model.ErrCaptchaIncorrect
+	}
+
+	res, err := model.GetByUsername(l.svcCtx.Database, in.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +64,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		TokenVersion:     0,
 	}
 
-	if err := user_dao.Create(*newUser); err != nil {
+	if err := model.CreateUser(l.svcCtx.Database, newUser); err != nil {
 		return nil, model.ErrUserCreateFailed
 	}
 

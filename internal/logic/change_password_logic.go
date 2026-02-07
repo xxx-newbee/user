@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/xxx-newbee/user/internal/dao"
 	"github.com/xxx-newbee/user/internal/logic/utils"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
@@ -28,8 +27,7 @@ func NewChangePasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ch
 	}
 }
 
-func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*user.UpdateResponse, error) {
-	// todo: add your logic here and delete this line
+func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*user.Empty, error) {
 	if in.Old == "" || in.New == "" {
 		return nil, model.ErrPasswordEmpty
 	}
@@ -52,7 +50,8 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*use
 
 	username := claims.Username
 	// 获取用户信息
-	res, err := dao.NewUserDao().GetByUsername(username)
+	//res, err := dao.NewUserDao().GetByUsername(username)
+	res, err := model.GetByUsername(l.svcCtx.Database, username)
 	if err != nil {
 		return nil, err
 	}
@@ -71,9 +70,10 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*use
 	// 更新用户密码
 	res.Password = newHashedPwd
 	res.TokenVersion = res.TokenVersion + 1
-	if err = dao.NewUserDao().Update(res); err != nil {
+
+	if model.UpdateUser(l.svcCtx.Database, res) == nil {
 		return nil, model.ErrChangePasswordFailed
 	}
 
-	return &user.UpdateResponse{Status: "success", Msg: "密码修改成功"}, nil
+	return nil, nil
 }

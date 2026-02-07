@@ -21,6 +21,42 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Empty struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Empty) Reset() {
+	*x = Empty{}
+	mi := &file_user_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Empty) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Empty) ProtoMessage() {}
+
+func (x *Empty) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{0}
+}
+
 type RegisterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
@@ -28,13 +64,15 @@ type RegisterRequest struct {
 	Nickname      string                 `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty"`
 	WalletAddr    string                 `protobuf:"bytes,4,opt,name=wallet_addr,json=walletAddr,proto3" json:"wallet_addr,omitempty"`
 	ReferralCode  string                 `protobuf:"bytes,5,opt,name=referral_code,json=referralCode,proto3" json:"referral_code,omitempty"`
+	CaptchaId     string                 `protobuf:"bytes,6,opt,name=captcha_id,json=captchaId,proto3" json:"captcha_id,omitempty"`
+	CaptchaCode   string                 `protobuf:"bytes,7,opt,name=captcha_code,json=captchaCode,proto3" json:"captcha_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RegisterRequest) Reset() {
 	*x = RegisterRequest{}
-	mi := &file_user_proto_msgTypes[0]
+	mi := &file_user_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +84,7 @@ func (x *RegisterRequest) String() string {
 func (*RegisterRequest) ProtoMessage() {}
 
 func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[0]
+	mi := &file_user_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +97,7 @@ func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
 func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{0}
+	return file_user_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *RegisterRequest) GetUsername() string {
@@ -97,6 +135,20 @@ func (x *RegisterRequest) GetReferralCode() string {
 	return ""
 }
 
+func (x *RegisterRequest) GetCaptchaId() string {
+	if x != nil {
+		return x.CaptchaId
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetCaptchaCode() string {
+	if x != nil {
+		return x.CaptchaCode
+	}
+	return ""
+}
+
 type RegisterResponse struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Id               int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -111,7 +163,7 @@ type RegisterResponse struct {
 
 func (x *RegisterResponse) Reset() {
 	*x = RegisterResponse{}
-	mi := &file_user_proto_msgTypes[1]
+	mi := &file_user_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -123,7 +175,7 @@ func (x *RegisterResponse) String() string {
 func (*RegisterResponse) ProtoMessage() {}
 
 func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[1]
+	mi := &file_user_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -136,7 +188,7 @@ func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
 func (*RegisterResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{1}
+	return file_user_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RegisterResponse) GetId() int64 {
@@ -185,13 +237,15 @@ type LoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	CaptchaId     string                 `protobuf:"bytes,3,opt,name=captcha_id,json=captchaId,proto3" json:"captcha_id,omitempty"`
+	CaptchaCode   string                 `protobuf:"bytes,4,opt,name=captcha_code,json=captchaCode,proto3" json:"captcha_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_user_proto_msgTypes[2]
+	mi := &file_user_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -203,7 +257,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[2]
+	mi := &file_user_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -216,7 +270,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{2}
+	return file_user_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *LoginRequest) GetUsername() string {
@@ -229,6 +283,20 @@ func (x *LoginRequest) GetUsername() string {
 func (x *LoginRequest) GetPassword() string {
 	if x != nil {
 		return x.Password
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetCaptchaId() string {
+	if x != nil {
+		return x.CaptchaId
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetCaptchaCode() string {
+	if x != nil {
+		return x.CaptchaCode
 	}
 	return ""
 }
@@ -248,7 +316,7 @@ type LoginResponse struct {
 
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
-	mi := &file_user_proto_msgTypes[3]
+	mi := &file_user_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -260,7 +328,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[3]
+	mi := &file_user_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -273,7 +341,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{3}
+	return file_user_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *LoginResponse) GetToken() string {
@@ -323,42 +391,6 @@ func (x *LoginResponse) GetReferralCode() string {
 		return x.ReferralCode
 	}
 	return ""
-}
-
-type GetUserInfoRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetUserInfoRequest) Reset() {
-	*x = GetUserInfoRequest{}
-	mi := &file_user_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetUserInfoRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetUserInfoRequest) ProtoMessage() {}
-
-func (x *GetUserInfoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetUserInfoRequest.ProtoReflect.Descriptor instead.
-func (*GetUserInfoRequest) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{4}
 }
 
 type GetUserInfoResponse struct {
@@ -549,28 +581,28 @@ func (x *ChangePassWdRequest) GetNew() string {
 	return ""
 }
 
-type UpdateResponse struct {
+type CaptchaResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	CaptchaId     string                 `protobuf:"bytes,1,opt,name=captcha_id,json=captchaId,proto3" json:"captcha_id,omitempty"`
+	ImgBase64     string                 `protobuf:"bytes,2,opt,name=img_base64,json=imgBase64,proto3" json:"img_base64,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateResponse) Reset() {
-	*x = UpdateResponse{}
+func (x *CaptchaResponse) Reset() {
+	*x = CaptchaResponse{}
 	mi := &file_user_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateResponse) String() string {
+func (x *CaptchaResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateResponse) ProtoMessage() {}
+func (*CaptchaResponse) ProtoMessage() {}
 
-func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
+func (x *CaptchaResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -582,21 +614,21 @@ func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
-func (*UpdateResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CaptchaResponse.ProtoReflect.Descriptor instead.
+func (*CaptchaResponse) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *UpdateResponse) GetStatus() string {
+func (x *CaptchaResponse) GetCaptchaId() string {
 	if x != nil {
-		return x.Status
+		return x.CaptchaId
 	}
 	return ""
 }
 
-func (x *UpdateResponse) GetMsg() string {
+func (x *CaptchaResponse) GetImgBase64() string {
 	if x != nil {
-		return x.Msg
+		return x.ImgBase64
 	}
 	return ""
 }
@@ -606,14 +638,18 @@ var File_user_proto protoreflect.FileDescriptor
 const file_user_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"user.proto\x12\x04user\"\xab\x01\n" +
+	"user.proto\x12\x04user\"\a\n" +
+	"\x05Empty\"\xed\x01\n" +
 	"\x0fRegisterRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1a\n" +
 	"\bnickname\x18\x03 \x01(\tR\bnickname\x12\x1f\n" +
 	"\vwallet_addr\x18\x04 \x01(\tR\n" +
 	"walletAddr\x12#\n" +
-	"\rreferral_code\x18\x05 \x01(\tR\freferralCode\"\xce\x01\n" +
+	"\rreferral_code\x18\x05 \x01(\tR\freferralCode\x12\x1d\n" +
+	"\n" +
+	"captcha_id\x18\x06 \x01(\tR\tcaptchaId\x12!\n" +
+	"\fcaptcha_code\x18\a \x01(\tR\vcaptchaCode\"\xce\x01\n" +
 	"\x10RegisterResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
@@ -621,10 +657,13 @@ const file_user_proto_rawDesc = "" +
 	"\vwallet_addr\x18\x04 \x01(\tR\n" +
 	"walletAddr\x12,\n" +
 	"\x12user_referral_code\x18\x05 \x01(\tR\x10userReferralCode\x12#\n" +
-	"\rreferral_code\x18\x06 \x01(\tR\freferralCode\"F\n" +
+	"\rreferral_code\x18\x06 \x01(\tR\freferralCode\"\x88\x01\n" +
 	"\fLoginRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xea\x01\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1d\n" +
+	"\n" +
+	"captcha_id\x18\x03 \x01(\tR\tcaptchaId\x12!\n" +
+	"\fcaptcha_code\x18\x04 \x01(\tR\vcaptchaCode\"\xea\x01\n" +
 	"\rLoginResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x1a\n" +
@@ -633,8 +672,7 @@ const file_user_proto_rawDesc = "" +
 	"\vwallet_addr\x18\x05 \x01(\tR\n" +
 	"walletAddr\x12,\n" +
 	"\x12user_referral_code\x18\x06 \x01(\tR\x10userReferralCode\x12#\n" +
-	"\rreferral_code\x18\a \x01(\tR\freferralCode\"\x14\n" +
-	"\x12GetUserInfoRequest\"\xd1\x01\n" +
+	"\rreferral_code\x18\a \x01(\tR\freferralCode\"\xd1\x01\n" +
 	"\x13GetUserInfoResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
@@ -649,16 +687,19 @@ const file_user_proto_rawDesc = "" +
 	"walletAddr\"9\n" +
 	"\x13ChangePassWdRequest\x12\x10\n" +
 	"\x03old\x18\x01 \x01(\tR\x03old\x12\x10\n" +
-	"\x03new\x18\x02 \x01(\tR\x03new\":\n" +
-	"\x0eUpdateResponse\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\x12\x10\n" +
-	"\x03msg\x18\x02 \x01(\tR\x03msg2\xbe\x02\n" +
+	"\x03new\x18\x02 \x01(\tR\x03new\"O\n" +
+	"\x0fCaptchaResponse\x12\x1d\n" +
+	"\n" +
+	"captcha_id\x18\x01 \x01(\tR\tcaptchaId\x12\x1d\n" +
+	"\n" +
+	"img_base64\x18\x02 \x01(\tR\timgBase642\xd6\x02\n" +
 	"\x04User\x129\n" +
 	"\bRegister\x12\x15.user.RegisterRequest\x1a\x16.user.RegisterResponse\x120\n" +
-	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\x12B\n" +
-	"\vGetUserInfo\x12\x18.user.GetUserInfoRequest\x1a\x19.user.GetUserInfoResponse\x12B\n" +
-	"\x0eUpdateUserInfo\x12\x1a.user.UpdateUserInfoReqest\x1a\x14.user.UpdateResponse\x12A\n" +
-	"\x0eChangePassword\x12\x19.user.ChangePassWdRequest\x1a\x14.user.UpdateResponseB\bZ\x06./userb\x06proto3"
+	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\x125\n" +
+	"\vGetUserInfo\x12\v.user.Empty\x1a\x19.user.GetUserInfoResponse\x129\n" +
+	"\x0eUpdateUserInfo\x12\x1a.user.UpdateUserInfoReqest\x1a\v.user.Empty\x128\n" +
+	"\x0eChangePassword\x12\x19.user.ChangePassWdRequest\x1a\v.user.Empty\x125\n" +
+	"\x0fGenerateCaptcha\x12\v.user.Empty\x1a\x15.user.CaptchaResponseB\bZ\x06./userb\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once
@@ -674,29 +715,31 @@ func file_user_proto_rawDescGZIP() []byte {
 
 var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_user_proto_goTypes = []any{
-	(*RegisterRequest)(nil),      // 0: user.RegisterRequest
-	(*RegisterResponse)(nil),     // 1: user.RegisterResponse
-	(*LoginRequest)(nil),         // 2: user.LoginRequest
-	(*LoginResponse)(nil),        // 3: user.LoginResponse
-	(*GetUserInfoRequest)(nil),   // 4: user.GetUserInfoRequest
+	(*Empty)(nil),                // 0: user.Empty
+	(*RegisterRequest)(nil),      // 1: user.RegisterRequest
+	(*RegisterResponse)(nil),     // 2: user.RegisterResponse
+	(*LoginRequest)(nil),         // 3: user.LoginRequest
+	(*LoginResponse)(nil),        // 4: user.LoginResponse
 	(*GetUserInfoResponse)(nil),  // 5: user.GetUserInfoResponse
 	(*UpdateUserInfoReqest)(nil), // 6: user.UpdateUserInfoReqest
 	(*ChangePassWdRequest)(nil),  // 7: user.ChangePassWdRequest
-	(*UpdateResponse)(nil),       // 8: user.UpdateResponse
+	(*CaptchaResponse)(nil),      // 8: user.CaptchaResponse
 }
 var file_user_proto_depIdxs = []int32{
-	0, // 0: user.User.Register:input_type -> user.RegisterRequest
-	2, // 1: user.User.Login:input_type -> user.LoginRequest
-	4, // 2: user.User.GetUserInfo:input_type -> user.GetUserInfoRequest
+	1, // 0: user.User.Register:input_type -> user.RegisterRequest
+	3, // 1: user.User.Login:input_type -> user.LoginRequest
+	0, // 2: user.User.GetUserInfo:input_type -> user.Empty
 	6, // 3: user.User.UpdateUserInfo:input_type -> user.UpdateUserInfoReqest
 	7, // 4: user.User.ChangePassword:input_type -> user.ChangePassWdRequest
-	1, // 5: user.User.Register:output_type -> user.RegisterResponse
-	3, // 6: user.User.Login:output_type -> user.LoginResponse
-	5, // 7: user.User.GetUserInfo:output_type -> user.GetUserInfoResponse
-	8, // 8: user.User.UpdateUserInfo:output_type -> user.UpdateResponse
-	8, // 9: user.User.ChangePassword:output_type -> user.UpdateResponse
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
+	0, // 5: user.User.GenerateCaptcha:input_type -> user.Empty
+	2, // 6: user.User.Register:output_type -> user.RegisterResponse
+	4, // 7: user.User.Login:output_type -> user.LoginResponse
+	5, // 8: user.User.GetUserInfo:output_type -> user.GetUserInfoResponse
+	0, // 9: user.User.UpdateUserInfo:output_type -> user.Empty
+	0, // 10: user.User.ChangePassword:output_type -> user.Empty
+	8, // 11: user.User.GenerateCaptcha:output_type -> user.CaptchaResponse
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

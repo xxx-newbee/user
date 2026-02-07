@@ -1,11 +1,13 @@
 package api
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/spf13/cobra"
 	"github.com/xxx-newbee/user/internal/config"
-	"github.com/xxx-newbee/user/internal/dao"
+	"github.com/xxx-newbee/user/internal/logic"
+	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/server"
 	"github.com/xxx-newbee/user/internal/svc"
 	"github.com/xxx-newbee/user/user"
@@ -38,20 +40,25 @@ func init() {
 
 func setup() {
 	conf.MustLoad(configYaml, &config.C)
-	dao.InitMysql(config.C)
 }
 
 func run() error {
-	ctx := svc.NewServiceContext(config.C)
+	sctx := svc.NewServiceContext(config.C)
+	// 注册登录日志消费者
+	sctx.MemoryQueue.Register(model.SysLoginLog{}.TableName(), logic.NewLoginLogic(context.Background(), sctx).SaveLoginLog)
+	go sctx.MemoryQueue.Run()
 
 	s := zrpc.MustNewServer(config.C.RpcServerConf, func(grpcServer *grpc.Server) {
-		user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
+		user.RegisterUserServer(grpcServer, server.NewUserServer(sctx))
 
 		if config.C.Mode == service.DevMode || config.C.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}
 	})
-	defer s.Stop()
+	defer func() {
+		sctx.MemoryQueue.Shutdown()
+		s.Stop()
+	}()
 
 	fmt.Printf("Starting rpc server at %s...\n", config.C.ListenOn)
 	s.Start()

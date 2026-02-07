@@ -14,22 +14,23 @@ import (
 )
 
 type (
+	CaptchaResponse      = user.CaptchaResponse
 	ChangePassWdRequest  = user.ChangePassWdRequest
-	GetUserInfoRequest   = user.GetUserInfoRequest
+	Empty                = user.Empty
 	GetUserInfoResponse  = user.GetUserInfoResponse
 	LoginRequest         = user.LoginRequest
 	LoginResponse        = user.LoginResponse
 	RegisterRequest      = user.RegisterRequest
 	RegisterResponse     = user.RegisterResponse
-	UpdateResponse       = user.UpdateResponse
 	UpdateUserInfoReqest = user.UpdateUserInfoReqest
 
 	User interface {
 		Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 		Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-		GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
-		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error)
-		ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+		GetUserInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*Empty, error)
+		ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*Empty, error)
+		GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CaptchaResponse, error)
 	}
 
 	defaultUser struct {
@@ -53,17 +54,22 @@ func (m *defaultUser) Login(ctx context.Context, in *LoginRequest, opts ...grpc.
 	return client.Login(ctx, in, opts...)
 }
 
-func (m *defaultUser) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
+func (m *defaultUser) GetUserInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetUserInfo(ctx, in, opts...)
 }
 
-func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+func (m *defaultUser) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReqest, opts ...grpc.CallOption) (*Empty, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateUserInfo(ctx, in, opts...)
 }
 
-func (m *defaultUser) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+func (m *defaultUser) ChangePassword(ctx context.Context, in *ChangePassWdRequest, opts ...grpc.CallOption) (*Empty, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.ChangePassword(ctx, in, opts...)
+}
+
+func (m *defaultUser) GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CaptchaResponse, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GenerateCaptcha(ctx, in, opts...)
 }
