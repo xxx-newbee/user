@@ -74,14 +74,11 @@ func InitDB(c config.Config) *gorm.DB {
 }
 
 func InitRedis(c config.Config) storage.AdapterCache {
-	newRedis, err := cache.NewRedis(nil, redis.Options{
+	newRedis := cache.NewRedis(nil, &redis.Options{
 		Addr:     c.Cache.Redis.Addr,
 		Password: c.Cache.Redis.Password,
 		DB:       c.Cache.Redis.DB,
 	})
-	if err != nil {
-		panic("failed to init redis: " + err.Error())
-	}
 
 	return newRedis
 }

@@ -24,7 +24,6 @@ func NewGenerateCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GenerateCaptchaLogic) GenerateCaptcha(*user.Empty) (*user.CaptchaResponse, error) {
-	// todo: add your logic here and delete this line
 	id, b64s, answer, err := l.svcCtx.Captcha.Generate()
 	if err != nil {
 		l.Logger.Errorf("[GenerateCaptchaLogic.GenerateCaptcha] error: %v", err)
