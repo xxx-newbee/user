@@ -39,19 +39,19 @@ jobs:
           port: 6006
           script: |
             # 拉取最新镜像
-            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
+            docker pull huangjg/user-srv:latest
             
             # 停止旧容器
-            docker stop ${{ secrets.IMAGE_NAME }} || true
-            docker rm ${{ secrets.IMAGE_NAME }} || true
+            docker stop user-srv || true
+            docker rm user-srv || true
             
             # 启动新容器
             docker run -d \
-              --name my-go-app \
+              --name user-srv \
               --restart always \
               -p 8080:8080 \
               -v ./etc:/etc
-              ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
+              huangjg/user-srv:latest service -c /etc/user.yaml
             
             # 清理旧镜像 (可选)
             docker image prune -f
