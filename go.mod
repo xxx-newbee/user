@@ -8,7 +8,7 @@ require (
 	github.com/mssola/user_agent v0.6.0
 	github.com/redis/go-redis/v9 v9.17.2
 	github.com/spf13/cobra v1.10.2
-	github.com/xxx-newbee/storage v1.0.1
+	github.com/xxx-newbee/storage v1.0.5
 	github.com/zeromicro/go-zero v1.9.4
 	golang.org/x/crypto v0.46.0
 	google.golang.org/grpc v1.78.0
