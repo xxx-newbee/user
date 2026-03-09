@@ -36,7 +36,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		return nil, model.ErrCaptchaIncorrect
 	}
 
-	res, err := model.GetByUsername(l.svcCtx.Database, in.Username)
+	res, err := l.svcCtx.UserModel.GetByUsername(in.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		TokenVersion:     0,
 	}
 
-	if err := model.CreateUser(l.svcCtx.Database, newUser); err != nil {
+	if err := l.svcCtx.UserModel.Create(newUser); err != nil {
 		return nil, model.ErrUserCreateFailed
 	}
 

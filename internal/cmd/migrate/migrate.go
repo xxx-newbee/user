@@ -35,7 +35,7 @@ func setup() {
 
 func run() error {
 	db := svc.InitDB(config.C)
-	if err := db.AutoMigrate(&model.User{}, &model.SysLoginLog{}); err != nil {
+	if err := db.AutoMigrate(&model.User{}, &model.SysLoginLogModel{}); err != nil {
 		return err
 	}
 	log.Println("migrate success")

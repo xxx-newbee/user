@@ -1,12 +1,10 @@
 package api
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/spf13/cobra"
 	"github.com/xxx-newbee/user/internal/config"
-	"github.com/xxx-newbee/user/internal/logic"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/server"
 	"github.com/xxx-newbee/user/internal/svc"
@@ -45,7 +43,7 @@ func setup() {
 func run() error {
 	sctx := svc.NewServiceContext(config.C)
 	// 注册登录日志消费者
-	sctx.MemoryQueue.Register(model.SysLoginLog{}.TableName(), logic.NewLoginLogic(context.Background(), sctx).SaveLoginLog)
+	sctx.MemoryQueue.Register(model.SysLoginLogModel{}.TableName(), sctx.SysLoginLog.SaveLoginLog)
 	go sctx.MemoryQueue.Run()
 
 	s := zrpc.MustNewServer(config.C.RpcServerConf, func(grpcServer *grpc.Server) {

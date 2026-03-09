@@ -2,10 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
 	"time"
 
-	"github.com/xxx-newbee/storage"
 	"github.com/xxx-newbee/storage/queue"
 	"github.com/xxx-newbee/user/internal/logic/utils"
 	"github.com/xxx-newbee/user/internal/model"
@@ -36,7 +34,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	var status = "2"
 	var msg = "登录成功"
 	// 日志入库
-	defer l.LoginLogToDB(username, status, msg)
+	defer l.LoginLogToQueue(username, status, msg)
 	// 检查验证码
 	ck := l.svcCtx.CaptchaStore.Verify(in.CaptchaId, in.CaptchaCode, true)
 	if ck != true {
@@ -45,7 +43,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		return nil, model.ErrCaptchaIncorrect
 	}
 	// 获取用户
-	res, err := model.GetByUsername(l.svcCtx.Database, in.Username)
+	res, err := l.svcCtx.UserModel.GetByUsername(in.Username)
 	if err != nil {
 		status = "1"
 		msg = err.Error()
@@ -86,29 +84,8 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	}, nil
 }
 
-// 登录日志消费者
-func (l *LoginLogic) SaveLoginLog(msg storage.Messager) error {
-	rb, err := json.Marshal(msg.GetValues())
-	if err != nil {
-		l.Logger.Error(err.Error())
-		return err
-	}
-	var ll model.SysLoginLog
-	if err = json.Unmarshal(rb, &ll); err != nil {
-		l.Logger.Error(err.Error())
-		return err
-	}
-
-	if err = l.svcCtx.Database.Create(&ll).Error; err != nil {
-		l.Logger.Error(err.Error())
-		return err
-	}
-
-	return nil
-}
-
 // 登录日志生产者
-func (l *LoginLogic) LoginLogToDB(username, status, msg string) {
+func (l *LoginLogic) LoginLogToQueue(username, status, msg string) {
 	ll := make(map[string]interface{})
 	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
@@ -136,7 +113,7 @@ func (l *LoginLogic) LoginLogToDB(username, status, msg string) {
 
 	// 创建消息
 	message := &queue.Message{
-		Stream: model.SysLoginLog{}.TableName(),
+		Stream: model.SysLoginLogModel{}.TableName(),
 		Values: ll,
 	}
 	// 消息入队

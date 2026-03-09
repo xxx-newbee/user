@@ -51,7 +51,7 @@ func (l *GetUserInfoLogic) GetUserInfo(*user.Empty) (*user.GetUserInfoResponse, 
 
 	username := claims.Username
 
-	res, err := model.GetByUsername(l.svcCtx.Database, username)
+	res, err := l.svcCtx.UserModel.GetByUsername(username)
 	if err != nil {
 		return nil, err
 	}

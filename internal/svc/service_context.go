@@ -11,6 +11,7 @@ import (
 	"github.com/xxx-newbee/storage/cache"
 	"github.com/xxx-newbee/storage/queue"
 	"github.com/xxx-newbee/user/internal/config"
+	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc/captcha"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -20,13 +21,15 @@ type ServiceContext struct {
 	Config       config.Config
 	MemoryQueue  storage.AdapterQueue
 	RedisQueue   storage.AdapterQueue
-	Database     *gorm.DB
 	Cache        storage.AdapterCache
 	Captcha      *base64Captcha.Captcha
 	CaptchaStore base64Captcha.Store
+	UserModel    model.UserModel
+	SysLoginLog  model.SysLoginLog
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	db := InitDB(c)
 	cacheAdapter := InitRedis(c)
 	captchaStore := captcha.NewCaptchaStore(cacheAdapter, c.Captcha.Expire)
 	captchaDriver := base64Captcha.NewDriverMath(
@@ -43,10 +46,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:       c,
 		MemoryQueue:  queue.NewMemoryQueue(c.Queue.Memory.PoolSize),
 		RedisQueue:   InitRedisQueue(c),
-		Database:     InitDB(c),
 		Cache:        cacheAdapter,
 		Captcha:      base64Captcha.NewCaptcha(captchaDriver, captchaStore),
 		CaptchaStore: captchaStore,
+		UserModel:    model.NewDefaultUser(db),
+		SysLoginLog:  model.NewSysLoginLog(db),
 	}
 }
 
@@ -69,7 +73,7 @@ func InitDB(c config.Config) *gorm.DB {
 	if sqlDb.PingContext(context.Background()) != nil {
 		panic("failed to ping database: " + err.Error())
 	}
-	println("✅ MySQL connected successfully")
+	println("Database connected！✅")
 	return db
 }
 

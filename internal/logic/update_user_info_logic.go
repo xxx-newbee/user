@@ -47,9 +47,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 
 	username := claims.Username
 
-	//userDao := dao.NewUserDao()
-	//res, err := userDao.GetByUsername(username)
-	res, err := model.GetByUsername(l.svcCtx.Database, username)
+	res, err := l.svcCtx.UserModel.GetByUsername(username)
 	if err != nil {
 		return nil, err
 	}
@@ -68,10 +66,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 		res.Wallet = in.WalletAddr
 	}
 
-	//if err = userDao.Update(res); err != nil {
-	//	return nil, model.ErrUpdateUserFailed
-	//}
-	if model.UpdateUser(l.svcCtx.Database, res) == nil {
+	if l.svcCtx.UserModel.Update(res) == nil {
 		return nil, model.ErrUpdateUserFailed
 	}
 	return nil, nil

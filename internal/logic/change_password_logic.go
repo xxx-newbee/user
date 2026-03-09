@@ -50,8 +50,7 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*use
 
 	username := claims.Username
 	// 获取用户信息
-	//res, err := dao.NewUserDao().GetByUsername(username)
-	res, err := model.GetByUsername(l.svcCtx.Database, username)
+	res, err := l.svcCtx.UserModel.GetByUsername(username)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +70,7 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*use
 	res.Password = newHashedPwd
 	res.TokenVersion = res.TokenVersion + 1
 
-	if model.UpdateUser(l.svcCtx.Database, res) == nil {
+	if l.svcCtx.UserModel.Update(res) == nil {
 		return nil, model.ErrChangePasswordFailed
 	}
 
