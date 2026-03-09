@@ -50,6 +50,7 @@ jobs:
               --name my-go-app \
               --restart always \
               -p 8080:8080 \
+              -v ./etc:/etc
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
             
             # 清理旧镜像 (可选)
