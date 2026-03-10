@@ -47,7 +47,7 @@ func (o *defaultLoginLogModel) SaveLoginLog(msg storage.Messager) error {
 	if err != nil {
 		return err
 	}
-	var ll SysLoginLog
+	var ll SysLoginLogModel
 	if err = json.Unmarshal(rb, &ll); err != nil {
 		return err
 	}
