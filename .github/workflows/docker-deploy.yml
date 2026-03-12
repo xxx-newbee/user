@@ -45,7 +45,7 @@ jobs:
             docker rm user-srv || true
             
             # 启动新容器
-            docker run -d --name user-srv --net go-micro --restart always -p 8080:8080 -v /etc/go-micro:/etc huangjg/user-srv:latest service -c /etc/user.yaml
+            docker run -d --name user-srv --net go-micro --restart always -p 8080:8080 -v /etc/go-micro/user.yaml:/etc/user.yaml huangjg/user-srv:latest service -c /etc/user.yaml
             
             # 清理旧镜像 (可选)
             docker image prune -f
