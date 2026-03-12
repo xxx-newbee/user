@@ -65,7 +65,7 @@ func (o *defaultUserModel) GetByUsername(username string) (*User, error) {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
-		return nil, ErrUserNotFound
+		return nil, res.Error
 	}
 	return &user, nil
 }
@@ -75,9 +75,9 @@ func (o *defaultUserModel) GetById(id uint) (*User, error) {
 	res := o.db.Table(o.table).Where("id = ?", id).First(&user)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return nil, res.Error
+			return nil, nil
 		}
-		return nil, ErrUserNotFound
+		return nil, res.Error
 	}
 	return &user, nil
 }
