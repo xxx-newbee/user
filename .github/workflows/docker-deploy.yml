@@ -23,7 +23,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: huangjg/user-srv:latest
+          tags: newlybee/user-srv:latest
 
   deploy:
     needs: build-and-push
@@ -38,14 +38,14 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             # 拉取最新镜像
-            docker pull huangjg/user-srv:latest
+            docker pull newlybee/user-srv:latest
             
             # 停止旧容器
             docker stop user-srv || true
             docker rm user-srv || true
             
             # 启动新容器
-            docker run -d --name user-srv --network host --restart always -p 8080:8080 -v ~/go-micro/user.yaml:/app/user.yaml huangjg/user-srv:latest service -c /app/user.yaml
+            docker run -d --name user-srv --network host --restart always -p 8080:8080 -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
             
             # 清理旧镜像 (可选)
             docker image prune -f
