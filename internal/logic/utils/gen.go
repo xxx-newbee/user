@@ -23,3 +23,15 @@ func GenerateReferralCode() (string, error) {
 	}
 	return string(result), nil
 }
+
+func GenerateCode(nums int) (string, error) {
+	result := make([]byte, nums)
+	for i := 0; i < nums; i++ {
+		idx, err := rand.Int(rand.Reader, big.NewInt(int64(len(chars))))
+		if err != nil {
+			return "", err
+		}
+		result[i] = chars[idx.Int64()]
+	}
+	return string(result), nil
+}

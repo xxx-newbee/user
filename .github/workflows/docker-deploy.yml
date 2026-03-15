@@ -31,6 +31,8 @@ jobs:
     steps:
       # 2. SSH 连接服务器拉取镜像并重启
       - name: Deploy to Server
+        env:
+          SMTP_KEY: ${{ secrets.SMTP_KEY }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -45,7 +47,7 @@ jobs:
             docker rm user-srv || true
             
             # 启动新容器
-            docker run -d --name user-srv --network host --restart always -p 8080:8080 -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
+            docker run -d --name user-srv --network host -e SMTP=$SMTP_KEY --restart always -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
             
             # 清理旧镜像 (可选)
             docker image prune -f

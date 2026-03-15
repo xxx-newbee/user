@@ -10,19 +10,22 @@ message RegisterRequest {
   string username = 1;
   string password = 2;
   string nickname = 3;
-  string wallet_addr = 4;
-  string referral_code = 5;
-  string captcha_id = 6;
-  string captcha_code = 7;
+  string email = 4;
+  string email_code = 5;
+  string wallet_addr = 6;
+  string referral_code = 7;
+  string captcha_id = 8;
+  string captcha_code = 9;
 }
 
 message RegisterResponse {
   int64 id = 1;
   string username = 2;
   string nickname = 3;
-  string wallet_addr = 4;
-  string user_referral_code = 5;
-  string referral_code = 6;
+  string email = 4;
+  string wallet_addr = 5;
+  string user_referral_code = 6;
+  string referral_code = 7;
 }
 
 message LoginRequest {
@@ -37,18 +40,20 @@ message LoginResponse {
   int64 user_id = 2;
   string username = 3;
   string nickname = 4;
-  string wallet_addr = 5;
-  string user_referral_code = 6;
-  string referral_code = 7;
+  string email = 5;
+  string wallet_addr = 6;
+  string user_referral_code = 7;
+  string referral_code = 8;
 }
 
 message GetUserInfoResponse {
   int64 id = 1;
   string username = 2;
   string nickname = 3;
-  string wallet_addr = 4;
-  string user_referral_code = 5;
-  string referral_code = 6;
+  string email = 4;
+  string wallet_addr = 5;
+  string user_referral_code = 6;
+  string referral_code = 7;
 }
 
 message UpdateUserInfoReqest {
@@ -66,6 +71,14 @@ message CaptchaResponse {
   string img_base64 = 2;
 }
 
+message SendEmailRequest {
+  string email = 1;
+}
+
+message SendEmailResponse {
+  bool success = 1;
+}
+
 
 service User {
   rpc Register (RegisterRequest) returns (RegisterResponse);
@@ -74,4 +87,5 @@ service User {
   rpc UpdateUserInfo (UpdateUserInfoReqest) returns (Empty);
   rpc ChangePassword (ChangePassWdRequest) returns (Empty);
   rpc GenerateCaptcha (Empty) returns (CaptchaResponse);
+  rpc SendEmail (SendEmailRequest) returns (SendEmailResponse);
 }

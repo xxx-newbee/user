@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/xxx-newbee/user/internal/config"
@@ -38,6 +39,7 @@ func init() {
 
 func setup() {
 	conf.MustLoad(configYaml, &config.C)
+	config.C.SMTP.Password = os.Getenv("SMTP_PASSWORD")
 }
 
 func run() error {

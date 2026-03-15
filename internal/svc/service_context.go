@@ -9,28 +9,39 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/xxx-newbee/storage"
 	"github.com/xxx-newbee/storage/cache"
+	"github.com/xxx-newbee/storage/locker"
 	"github.com/xxx-newbee/storage/queue"
 	"github.com/xxx-newbee/user/internal/config"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc/captcha"
+	"github.com/xxx-newbee/user/internal/svc/mail"
+	"gopkg.in/gomail.v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	MemoryQueue  storage.AdapterQueue
-	RedisQueue   storage.AdapterQueue
+	Config      config.Config
+	Locker      storage.AdapterLocker
+	MemoryQueue storage.AdapterQueue
+	RedisQueue  storage.AdapterQueue
+
+	// verifies
 	Cache        storage.AdapterCache
 	Captcha      *base64Captcha.Captcha
 	CaptchaStore base64Captcha.Store
-	UserModel    model.UserModel
-	SysLoginLog  model.SysLoginLog
+	MailStore    mail.MailStore
+	Mail         *gomail.Dialer
+
+	// models
+	UserModel   model.UserModel
+	SysLoginLog model.SysLoginLog
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	db := InitDB(c)
-	cacheAdapter := InitRedis(c)
+	rdb := InitRedis(c)
+	cacheAdapter := cache.NewRedis(rdb, nil)
 	captchaStore := captcha.NewCaptchaStore(cacheAdapter, c.Captcha.Expire)
 	captchaDriver := base64Captcha.NewDriverMath(
 		c.Captcha.ImgHeight,
@@ -41,14 +52,19 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		base64Captcha.DefaultEmbeddedFonts,
 		[]string{"wqy-microhei.ttc"},
 	)
+	m := gomail.NewMessage()
+	m.SetHeader("From")
 
 	return &ServiceContext{
 		Config:       c,
 		MemoryQueue:  queue.NewMemoryQueue(c.Queue.Memory.PoolSize),
-		RedisQueue:   InitRedisQueue(c),
+		RedisQueue:   queue.NewRedisQueue(rdb, c.Queue.Redis.Prefix, c.Queue.Redis.MaxRetry),
 		Cache:        cacheAdapter,
+		Locker:       locker.NewRedisLocker(rdb),
 		Captcha:      base64Captcha.NewCaptcha(captchaDriver, captchaStore),
 		CaptchaStore: captchaStore,
+		MailStore:    mail.NewMailVerifyStore(cacheAdapter, c.SMTP.Expire),
+		Mail:         gomail.NewDialer(c.SMTP.Host, c.SMTP.Port, c.SMTP.MailFrom, c.SMTP.Password),
 		UserModel:    model.NewDefaultUser(db),
 		SysLoginLog:  model.NewSysLoginLog(db),
 	}
@@ -77,21 +93,15 @@ func InitDB(c config.Config) *gorm.DB {
 	return db
 }
 
-func InitRedis(c config.Config) storage.AdapterCache {
-	newRedis := cache.NewRedis(nil, &redis.Options{
+func InitRedis(c config.Config) *redis.Client {
+
+	newRedis := redis.NewClient(&redis.Options{
 		Addr:     c.Cache.Redis.Addr,
 		Password: c.Cache.Redis.Password,
 		DB:       c.Cache.Redis.DB,
 	})
-
+	if err := newRedis.Ping(context.Background()).Err(); err != nil {
+		panic(err)
+	}
 	return newRedis
-}
-
-func InitRedisQueue(c config.Config) storage.AdapterQueue {
-	client := redis.NewClient(&redis.Options{
-		Addr:     c.Queue.Redis.Addr,
-		Password: c.Queue.Redis.Password,
-		DB:       c.Queue.Redis.DB,
-	})
-	return queue.NewRedisQueue(client, c.Queue.Redis.Prefix, c.Queue.Redis.MaxRetry)
 }

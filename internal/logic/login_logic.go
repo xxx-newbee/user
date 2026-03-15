@@ -78,6 +78,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		Token:            token,
 		Username:         res.Username,
 		Nickname:         res.Nickname,
+		Email:            res.Email,
 		WalletAddr:       res.Wallet,
 		UserReferralCode: res.UserReferralCode,
 		ReferralCode:     res.ReferralCode,

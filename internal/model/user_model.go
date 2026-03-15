@@ -12,6 +12,7 @@ type (
 		Username         string `db:"username"`
 		Password         string `db:"password"`
 		Nickname         string `db:"nickname"`
+		Email            string `db:"email"`
 		UserReferralCode string `db:"user_referral_code"`
 		ReferralCode     string `db:"referral_code"`
 		Wallet           string `db:"wallet"`
@@ -44,6 +45,7 @@ var (
 	ErrChangePasswordFailed        = errors.New("failed to change password")
 	ErrGenerateReferralCode        = errors.New("failed to generate referral code")
 	ErrCaptchaIncorrect            = errors.New("captcha is incorrect")
+	ErrVerifyEmail                 = errors.New("verify email failed")
 )
 
 type defaultUserModel struct {

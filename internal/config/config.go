@@ -28,6 +28,7 @@ type Config struct {
 		Memory MemoryQueueConf
 	}
 	Captcha CaptchaConf
+	SMTP    SMTPConf
 }
 
 type RedisConf struct {
@@ -56,4 +57,12 @@ type CaptchaConf struct {
 	NoiseCount        int `json:",default=1"`
 	InterferenceCount int `json:",default=0"`
 	MathDifficulty    int `json:",default=10"`
+}
+
+type SMTPConf struct {
+	Host     string
+	Port     int
+	MailFrom string
+	Password string
+	Expire   int
 }

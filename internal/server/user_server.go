@@ -52,3 +52,8 @@ func (s *UserServer) GenerateCaptcha(ctx context.Context, in *user.Empty) (*user
 	l := logic.NewGenerateCaptchaLogic(ctx, s.svcCtx)
 	return l.GenerateCaptcha(in)
 }
+
+func (s *UserServer) SendEmail(ctx context.Context, in *user.SendEmailRequest) (*user.SendEmailResponse, error) {
+	l := logic.NewSendEmailLogic(ctx, s.svcCtx)
+	return l.SendEmail(in)
+}

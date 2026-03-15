@@ -1,17 +1,25 @@
 Name: user.rpc
 ListenOn: 0.0.0.0:8080
 Mode: dev
+Timeout: 10000
+
+SMTP:
+  Host: "smtp.gmail.com"
+  Port: 465
+  MailFrom: "huang.learn@gmail.com"
+  Password: "vzkqrgzczrkexsnf"
+  Expire: 300                     # 验证码过期时间：秒
 
 # 服务注册
 Etcd:
   Hosts:
-    - 127.0.0.1:2379
+    - 0.0.0.0:2379
   Key: user.rpc
 
 
 # postgres 数据库配置
 Database:
-  DataSource: "host=127.0.0.1 user=huangjg password=huangjg@1001 dbname=go-micro port=5432 sslmode=disable"
+  DataSource: "host=0.0.0.0 user=huangjg password=huangjg@1001 dbname=go-micro port=5432 sslmode=disable"
   MaxOpenConns: 100
   MaxIdleConns: 20
   ConnMaxLifetime: 3600
@@ -42,7 +50,7 @@ Queue:
 
 # 验证码生成配置
 Captcha:
-  Expire: 300          # 验证码过期时间（秒），默认10分钟
+  Expire: 300          # 验证码过期时间（秒），默认5分钟
   FontSize: 40         # 字体大小
   ImgWidth: 180         # 图片宽度
   ImgHeight: 60        # 图片高度

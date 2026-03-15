@@ -30,6 +30,13 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		return nil, model.ErrUsernameOrPasswordEmpty
 	}
 
+	// 邮箱验证
+	if in.Email != "" {
+		if ok := l.svcCtx.MailStore.Verify(in.Email, in.EmailCode, true); !ok {
+			return nil, model.ErrVerifyEmail
+		}
+	}
+
 	// 校验验证码
 	ck := l.svcCtx.CaptchaStore.Verify(in.CaptchaId, in.CaptchaCode, true)
 	if ck != true {
@@ -58,6 +65,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		Username:         in.Username,
 		Password:         hashedPassword,
 		Nickname:         in.Nickname,
+		Email:            in.Email,
 		Wallet:           in.WalletAddr,
 		UserReferralCode: referralCode,
 		ReferralCode:     in.ReferralCode,
@@ -71,6 +79,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 	return &user.RegisterResponse{
 		Username:         newUser.Username,
 		Nickname:         newUser.Nickname,
+		Email:            newUser.Email,
 		UserReferralCode: newUser.UserReferralCode,
 		ReferralCode:     newUser.ReferralCode,
 		WalletAddr:       newUser.Wallet,
