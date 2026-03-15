@@ -7,7 +7,7 @@ SMTP:
   Host: "smtp.gmail.com"
   Port: 465
   MailFrom: "huang.learn@gmail.com"
-  Password: "vzkqrgzczrkexsnf"
+  Password: "123321"
   Expire: 300                     # 验证码过期时间：秒
 
 # 服务注册

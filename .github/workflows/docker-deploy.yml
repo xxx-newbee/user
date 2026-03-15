@@ -47,7 +47,7 @@ jobs:
             docker rm user-srv || true
             
             # 启动新容器
-            docker run -d --name user-srv --network host -e SMTP=$SMTP_KEY --restart always -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
+            docker run -d --name user-srv --network host -e SMTP_PASSWORD=$SMTP_KEY --restart always -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
             
             # 清理旧镜像 (可选)
             docker image prune -f
