@@ -38,6 +38,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          env: "SMTP_KEY"
           script: |
             # 拉取最新镜像
             docker pull newlybee/user-srv:latest
