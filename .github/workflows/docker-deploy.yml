@@ -31,9 +31,9 @@ jobs:
     steps:
       # 2. SSH 连接服务器拉取镜像并重启
       - name: Deploy to Server
+        uses: appleboy/ssh-action@master
         env:
           SMTP_KEY: ${{ secrets.SMTP_KEY }}
-        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
