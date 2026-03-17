@@ -36,10 +36,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: |
-            SMTP_KEY: ${{ secrets.SMTP_KEY }}
-          script: |
-            echo "Checking remote env: $SMTP_KEY" 
+          run: |
             # 拉取最新镜像
             docker pull newlybee/user-srv:latest
             
@@ -48,7 +45,7 @@ jobs:
             docker rm user-srv || true
             
             # 启动新容器
-            docker run -d --name user-srv --network host -e SMTP_KEY --restart always -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
-            docker exec -it user-srv sh -c "echo \$SMTP_KEY"
+            docker run -d --name user-srv --network host -e SMTP_KEY=${{secrets.SMTP_KEY}} --restart always -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
+
             # 清理旧镜像 (可选)
             docker image prune -f
