@@ -36,7 +36,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          run: |
+          script: |
             # 拉取最新镜像
             docker pull newlybee/user-srv:latest
             
