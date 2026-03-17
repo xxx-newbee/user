@@ -40,6 +40,7 @@ func init() {
 func setup() {
 	conf.MustLoad(configYaml, &config.C)
 	config.C.SMTP.Password = os.Getenv("SMTP_KEY")
+	fmt.Printf("初始化邮箱密码：", config.C.SMTP.Password)
 }
 
 func run() error {
