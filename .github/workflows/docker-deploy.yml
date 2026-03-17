@@ -37,15 +37,14 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # 拉取最新镜像
-            docker pull newlybee/user-srv:latest
-            
             # 停止旧容器
             docker stop user-srv || true
             docker rm user-srv || true
             
+            docker rmi newlybee/user-srv:latest
+            
+            # 拉取最新镜像
+            docker pull newlybee/user-srv:latest
+            
             # 启动新容器
             docker run -d --name user-srv --network host -e SMTP_KEY=${{secrets.SMTP_KEY}} --restart always -v ~/go-micro/user.yaml:/app/user.yaml newlybee/user-srv:latest service -c /app/user.yaml
-
-            # 清理旧镜像 (可选)
-            docker image prune -f
