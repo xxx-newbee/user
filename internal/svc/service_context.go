@@ -52,8 +52,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		base64Captcha.DefaultEmbeddedFonts,
 		[]string{"wqy-microhei.ttc"},
 	)
-	m := gomail.NewMessage()
-	m.SetHeader("From")
 
 	return &ServiceContext{
 		Config:       c,

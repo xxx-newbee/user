@@ -39,8 +39,10 @@ func init() {
 
 func setup() {
 	conf.MustLoad(configYaml, &config.C)
-	config.C.SMTP.Password = os.Getenv("SMTP_KEY")
-	fmt.Println(config.C.SMTP.Password)
+	if smtp := os.Getenv("SMTP_KEY"); smtp != "" {
+		config.C.SMTP.Password = smtp
+	}
+
 }
 
 func run() error {

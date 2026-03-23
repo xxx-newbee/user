@@ -4,10 +4,10 @@ Mode: dev
 Timeout: 10000
 
 SMTP:
-  Host: "smtp.gmail.com"
+  Host: "smtp.163.com"
   Port: 465
-  MailFrom: "huang.learn@gmail.com"
-  Password: "123321"
+  MailFrom: "tom_dev_123@163.com"
+  Password: "your smtp password"
   Expire: 300                     # 验证码过期时间：秒
 
 # 服务注册
