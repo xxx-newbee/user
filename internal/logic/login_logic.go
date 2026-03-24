@@ -119,7 +119,7 @@ func (l *LoginLogic) LoginLogToQueue(username, status, msg string) {
 	}
 	// 消息入队
 	if err := l.svcCtx.MemoryQueue.Append(message); err != nil {
-		l.Logger.Errorf("Append message error: %s", err.Error())
+		l.Logger.Errorf("Append login log message error: %s", err.Error())
 	}
 
 }
