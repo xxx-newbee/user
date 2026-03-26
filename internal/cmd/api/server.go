@@ -9,6 +9,7 @@ import (
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/server"
 	"github.com/xxx-newbee/user/internal/svc"
+	"github.com/xxx-newbee/user/internal/svc/mail"
 	"github.com/xxx-newbee/user/user"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -49,8 +50,9 @@ func run() error {
 	sctx := svc.NewServiceContext(config.C)
 	// 注册登录日志消费者
 	sctx.MemoryQueue.Register(model.SysLoginLogModel{}.TableName(), sctx.SysLoginLog.SaveLoginLog)
+	sctx.RedisQueue.Register(mail.RedisTopic, sctx.MailStore.Consumer)
 	go sctx.MemoryQueue.Run()
-
+	go sctx.RedisQueue.Run()
 	s := zrpc.MustNewServer(config.C.RpcServerConf, func(grpcServer *grpc.Server) {
 		user.RegisterUserServer(grpcServer, server.NewUserServer(sctx))
 
@@ -60,6 +62,7 @@ func run() error {
 	})
 	defer func() {
 		sctx.MemoryQueue.Shutdown()
+		sctx.RedisQueue.Shutdown()
 		s.Stop()
 	}()
 

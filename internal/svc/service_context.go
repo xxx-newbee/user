@@ -15,7 +15,6 @@ import (
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc/captcha"
 	"github.com/xxx-newbee/user/internal/svc/mail"
-	"gopkg.in/gomail.v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -31,7 +30,6 @@ type ServiceContext struct {
 	Captcha      *base64Captcha.Captcha
 	CaptchaStore base64Captcha.Store
 	MailStore    mail.MailStore
-	Mail         *gomail.Dialer
 
 	// models
 	UserModel   model.UserModel
@@ -61,8 +59,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Locker:       locker.NewRedisLocker(rdb),
 		Captcha:      base64Captcha.NewCaptcha(captchaDriver, captchaStore),
 		CaptchaStore: captchaStore,
-		MailStore:    mail.NewMailVerifyStore(cacheAdapter, c.SMTP.Expire),
-		Mail:         gomail.NewDialer(c.SMTP.Host, c.SMTP.Port, c.SMTP.MailFrom, c.SMTP.Password),
+		MailStore:    mail.NewMailVerifyStore(c, cacheAdapter, c.SMTP.Expire),
 		UserModel:    model.NewDefaultUser(db),
 		SysLoginLog:  model.NewSysLoginLog(db),
 	}
