@@ -66,6 +66,7 @@ func (m *MailVerifyStore) Consumer(messager storage.Messager) error {
 	// 生成验证码
 	code, err := utils.GenerateCode(6)
 	if err != nil {
+
 		//lock.Release(context.TODO())
 		return err
 	}
@@ -75,7 +76,7 @@ func (m *MailVerifyStore) Consumer(messager storage.Messager) error {
 	}
 	// 生成邮件文本
 	message := gomail.NewMessage()
-	message.SetHeader("From", "tom_dev_123@163.com")
+	message.SetHeader("From", m.dialer.Username)
 	message.SetHeader("To", to)
 	message.SetHeader("Subject", "邮箱验证 - 验证码")
 	body := fmt.Sprintf(`
