@@ -17,3 +17,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           binary_name: "user-srv"
+          project_path: "."
+          go_version: "1.25.5"
