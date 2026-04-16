@@ -62,8 +62,9 @@ message UpdateUserInfoReqest {
 }
 
 message ChangePassWdRequest {
-  string old = 1;
-  string new = 2;
+  string email = 1;
+  string code = 2;
+  string new = 3;
 }
 
 message CaptchaResponse {

@@ -43,7 +43,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		return nil, model.ErrCaptchaIncorrect
 	}
 
-	res, err := l.svcCtx.UserModel.GetByUsername(in.Username)
+	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(in.Username)
 	if err != nil {
 		return nil, err
 	}

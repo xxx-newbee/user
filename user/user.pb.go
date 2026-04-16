@@ -571,8 +571,9 @@ func (x *UpdateUserInfoReqest) GetWalletAddr() string {
 
 type ChangePassWdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Old           string                 `protobuf:"bytes,1,opt,name=old,proto3" json:"old,omitempty"`
-	New           string                 `protobuf:"bytes,2,opt,name=new,proto3" json:"new,omitempty"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	New           string                 `protobuf:"bytes,3,opt,name=new,proto3" json:"new,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -607,9 +608,16 @@ func (*ChangePassWdRequest) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *ChangePassWdRequest) GetOld() string {
+func (x *ChangePassWdRequest) GetEmail() string {
 	if x != nil {
-		return x.Old
+		return x.Email
+	}
+	return ""
+}
+
+func (x *ChangePassWdRequest) GetCode() string {
+	if x != nil {
+		return x.Code
 	}
 	return ""
 }
@@ -818,10 +826,11 @@ const file_user_proto_rawDesc = "" +
 	"\x14UpdateUserInfoReqest\x12\x1a\n" +
 	"\bnickname\x18\x01 \x01(\tR\bnickname\x12\x1f\n" +
 	"\vwallet_addr\x18\x02 \x01(\tR\n" +
-	"walletAddr\"9\n" +
-	"\x13ChangePassWdRequest\x12\x10\n" +
-	"\x03old\x18\x01 \x01(\tR\x03old\x12\x10\n" +
-	"\x03new\x18\x02 \x01(\tR\x03new\"O\n" +
+	"walletAddr\"Q\n" +
+	"\x13ChangePassWdRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\x12\x10\n" +
+	"\x03new\x18\x03 \x01(\tR\x03new\"O\n" +
 	"\x0fCaptchaResponse\x12\x1d\n" +
 	"\n" +
 	"captcha_id\x18\x01 \x01(\tR\tcaptchaId\x12\x1d\n" +

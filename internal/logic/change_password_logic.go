@@ -2,13 +2,11 @@ package logic
 
 import (
 	"context"
-	"errors"
 
 	"github.com/xxx-newbee/user/internal/logic/utils"
 	"github.com/xxx-newbee/user/internal/model"
 	"github.com/xxx-newbee/user/internal/svc"
 	"github.com/xxx-newbee/user/user"
-	"google.golang.org/grpc/metadata"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,40 +25,29 @@ func NewChangePasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ch
 	}
 }
 
+// 更改密码必须通过邮箱验证才能更改
 func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*user.Empty, error) {
-	if in.Old == "" || in.New == "" {
+	// todo: change password via email verification
+	if in.Code == "" || in.Email == "" {
+		return nil, model.ErrVerifyEmail
+	}
+
+	if ok := l.svcCtx.MailStore.Verify(in.Email, in.Code, true); !ok {
+		return nil, model.ErrVerifyEmail
+	}
+
+	if in.New == "" {
 		return nil, model.ErrPasswordEmpty
 	}
-	// 元数据获取token，解析token获取用户名
-	MD, ok := metadata.FromIncomingContext(l.ctx)
-	if !ok {
-		return nil, errors.New("metadata not found in context")
-	}
-
-	tokenStrs := MD.Get("Authorization")
-	if len(tokenStrs) == 0 {
-		return nil, errors.New("illegal usage")
-	}
-
-	tokenStr := tokenStrs[0]
-	claims, err := utils.ParseJWTToken(tokenStr, l.svcCtx.Config.JWT.Secret)
-	if err != nil {
-		return nil, err
-	}
-
-	username := claims.Username
 	// 获取用户信息
-	res, err := l.svcCtx.UserModel.GetByUsername(username)
+	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(in.Email)
 	if err != nil {
 		return nil, err
 	}
 	if res == nil || res.ID == 0 {
 		return nil, model.ErrUserNotFound
 	}
-	// 旧密码匹配
-	if err := utils.ComparePassword(res.Password, in.Old); err != nil {
-		return nil, model.ErrOldPasswordIncorrect
-	}
+
 	// 生成新密码哈希
 	newHashedPwd, err := utils.EncryptPassword(in.New)
 	if err != nil {

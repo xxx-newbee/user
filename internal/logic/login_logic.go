@@ -43,7 +43,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		return nil, model.ErrCaptchaIncorrect
 	}
 	// 获取用户
-	res, err := l.svcCtx.UserModel.GetByUsername(in.Username)
+	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(in.Username)
 	if err != nil {
 		status = "1"
 		msg = err.Error()

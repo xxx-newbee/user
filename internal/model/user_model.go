@@ -20,7 +20,7 @@ type (
 	}
 
 	UserModel interface {
-		GetByUsername(username string) (*User, error)
+		GetByUsernameOrEmail(username string) (*User, error)
 		GetById(id uint) (*User, error)
 		Create(user *User) error
 		Update(user *User) error
@@ -60,9 +60,9 @@ func NewDefaultUser(db *gorm.DB) UserModel {
 	}
 }
 
-func (o *defaultUserModel) GetByUsername(username string) (*User, error) {
+func (o *defaultUserModel) GetByUsernameOrEmail(key string) (*User, error) {
 	var user User
-	res := o.db.Table(o.table).Where("username = ?", username).First(&user)
+	res := o.db.Table(o.table).Where("username = ? or email = ?", key, key).First(&user)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			return nil, nil

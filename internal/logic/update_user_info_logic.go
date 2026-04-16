@@ -47,7 +47,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user.UpdateUserInfoReqest) (*us
 
 	username := claims.Username
 
-	res, err := l.svcCtx.UserModel.GetByUsername(username)
+	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(username)
 	if err != nil {
 		return nil, err
 	}
