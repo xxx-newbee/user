@@ -30,11 +30,13 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		return nil, model.ErrUsernameOrPasswordEmpty
 	}
 
+	if in.Email == "" || in.EmailCode == "" {
+		return nil, model.ErrVerifyEmail
+	}
+
 	// 邮箱验证
-	if in.Email != "" {
-		if ok := l.svcCtx.MailStore.Verify(in.Email, in.EmailCode, true); !ok {
-			return nil, model.ErrVerifyEmail
-		}
+	if ok := l.svcCtx.MailStore.Verify(in.Email, in.EmailCode, true); !ok {
+		return nil, model.ErrVerifyEmail
 	}
 
 	// 校验验证码
