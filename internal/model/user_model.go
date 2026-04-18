@@ -33,6 +33,7 @@ func (u *User) TableName() string {
 
 var (
 	ErrUserAlreadyExist            = errors.New("user already exists")
+	ErrEmailAlreadyRegistered      = errors.New("email already registered")
 	ErrPasswordNecessary           = errors.New("password is necessary")
 	ErrUsernameOrPasswordEmpty     = errors.New("username or password cannot be empty")
 	ErrUserCreateFailed            = errors.New("failed to create user")
