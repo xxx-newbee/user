@@ -44,6 +44,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 	if ck != true {
 		return nil, model.ErrCaptchaIncorrect
 	}
+
 	// 检查用户名唯一
 	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(in.Username)
 	if err != nil {
@@ -52,6 +53,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 	if res != nil && res.ID > 0 {
 		return nil, model.ErrUserAlreadyExist
 	}
+
 	// 检查邮箱唯一
 	res, err = l.svcCtx.UserModel.GetByUsernameOrEmail(in.Email)
 	if err != nil {
