@@ -57,8 +57,8 @@ func (l *ChangePasswordLogic) ChangePassword(in *user.ChangePassWdRequest) (*use
 	res.Password = newHashedPwd
 	res.TokenVersion = res.TokenVersion + 1
 
-	if l.svcCtx.UserModel.Update(res) == nil {
-		return nil, model.ErrChangePasswordFailed
+	if err := l.svcCtx.UserModel.Update(res); err != nil {
+		return nil, err
 	}
 
 	return nil, nil
