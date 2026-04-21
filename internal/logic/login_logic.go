@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/xxx-newbee/storage/queue"
@@ -99,7 +100,6 @@ func (l *LoginLogic) LoginLogToQueue(userId uint64, status, msg string) {
 	}
 
 	if uas := MD.Get("UA"); len(uas) > 0 {
-		logx.Infof("user-agent: %s", uas)
 		ua := user_agent.New(uas[0])
 		ll["remark"] = uas[0]
 		ll["os"] = ua.OS()
@@ -108,8 +108,8 @@ func (l *LoginLogic) LoginLogToQueue(userId uint64, status, msg string) {
 		ll["platform"] = ua.Platform()
 	}
 	if ip_addr := MD.Get("remote-addr"); len(ip_addr) > 0 {
-		logx.Infof("remote-addr: %s", ip_addr)
-		ll["ipaddr"] = ip_addr[0]
+		// ip_addr[0] = 93.179.101.214:33866
+		ll["ipaddr"] = strings.Split(ip_addr[0], ":")[0]
 	}
 
 	ll["loginTime"] = time.Now()
