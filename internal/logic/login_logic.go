@@ -51,25 +51,25 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(in.Username)
 	if err != nil {
 		status = "1"
-		msg = err.Error()
+		msg = "错误"
 		return nil, err
 	}
 	if res == nil || res.ID == 0 {
 		status = "1"
-		msg = "username not found"
+		msg = "未找到用户"
 		return nil, model.ErrUsernameOrPasswordIncorrect
 	}
 	user_id = int(res.ID)
 
 	if in.Password == "" {
 		status = "1"
-		msg = "password empty"
+		msg = "密码错误"
 		return nil, model.ErrPasswordNecessary
 	}
 
 	if err := utils.ComparePassword(res.Password, in.Password); err != nil {
 		status = "1"
-		msg = "password incorrect"
+		msg = "密码错误"
 		return nil, model.ErrUsernameOrPasswordIncorrect
 	}
 
