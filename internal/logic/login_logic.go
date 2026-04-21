@@ -30,11 +30,11 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
-	var username = in.Username
+	var user_id uint64 = 0
 	var status = "2"
 	var msg = "登录成功"
 	// 日志入库
-	defer l.LoginLogToQueue(username, status, msg)
+	defer l.LoginLogToQueue(user_id, status, msg)
 
 	// 检查验证码
 	ck := l.svcCtx.CaptchaStore.Verify(in.CaptchaId, in.CaptchaCode, true)
@@ -56,7 +56,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		msg = "username not found"
 		return nil, model.ErrUsernameOrPasswordIncorrect
 	}
-	username = res.Username
+	user_id = uint64(res.ID)
 
 	if in.Password == "" {
 		status = "1"
@@ -89,7 +89,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 }
 
 // 登录日志生产者
-func (l *LoginLogic) LoginLogToQueue(username, status, msg string) {
+func (l *LoginLogic) LoginLogToQueue(userId uint64, status, msg string) {
 	ll := make(map[string]interface{})
 	MD, ok := metadata.FromIncomingContext(l.ctx)
 	if !ok {
@@ -113,7 +113,7 @@ func (l *LoginLogic) LoginLogToQueue(username, status, msg string) {
 	ll["loginTime"] = time.Now()
 	ll["status"] = status
 	ll["msg"] = msg
-	ll["username"] = username
+	ll["userId"] = userId
 
 	// 创建消息
 	message := &queue.Message{
