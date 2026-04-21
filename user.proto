@@ -85,16 +85,17 @@ message LoginLogResponse {
 }
 
 message LoginLog {
-  uint64 user_id = 1;
-  string status = 2;
-  string ip_addr = 3;
-  string location = 4;
-  string browser = 5;
-  string os = 6;
-  string platform = 7;
-  int64  login_time = 8;
-  string remark = 9;
-  string msg = 10;
+  uint64 id = 1;
+  uint64 user_id = 2;
+  string status = 3;
+  string ip_addr = 4;
+  string location = 5;
+  string browser = 6;
+  string os = 7;
+  string platform = 8;
+  int64  login_time = 9;
+  string remark = 10;
+  string msg = 11;
 }
 
 message GetLoginLogRequest {

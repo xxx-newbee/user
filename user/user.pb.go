@@ -815,16 +815,17 @@ func (x *LoginLogResponse) GetLoginLogs() []*LoginLog {
 
 type LoginLog struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	IpAddr        string                 `protobuf:"bytes,3,opt,name=ip_addr,json=ipAddr,proto3" json:"ip_addr,omitempty"`
-	Location      string                 `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty"`
-	Browser       string                 `protobuf:"bytes,5,opt,name=browser,proto3" json:"browser,omitempty"`
-	Os            string                 `protobuf:"bytes,6,opt,name=os,proto3" json:"os,omitempty"`
-	Platform      string                 `protobuf:"bytes,7,opt,name=platform,proto3" json:"platform,omitempty"`
-	LoginTime     int64                  `protobuf:"varint,8,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`
-	Remark        string                 `protobuf:"bytes,9,opt,name=remark,proto3" json:"remark,omitempty"`
-	Msg           string                 `protobuf:"bytes,10,opt,name=msg,proto3" json:"msg,omitempty"`
+	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        uint64                 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	IpAddr        string                 `protobuf:"bytes,4,opt,name=ip_addr,json=ipAddr,proto3" json:"ip_addr,omitempty"`
+	Location      string                 `protobuf:"bytes,5,opt,name=location,proto3" json:"location,omitempty"`
+	Browser       string                 `protobuf:"bytes,6,opt,name=browser,proto3" json:"browser,omitempty"`
+	Os            string                 `protobuf:"bytes,7,opt,name=os,proto3" json:"os,omitempty"`
+	Platform      string                 `protobuf:"bytes,8,opt,name=platform,proto3" json:"platform,omitempty"`
+	LoginTime     int64                  `protobuf:"varint,9,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`
+	Remark        string                 `protobuf:"bytes,10,opt,name=remark,proto3" json:"remark,omitempty"`
+	Msg           string                 `protobuf:"bytes,11,opt,name=msg,proto3" json:"msg,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -857,6 +858,13 @@ func (x *LoginLog) ProtoReflect() protoreflect.Message {
 // Deprecated: Use LoginLog.ProtoReflect.Descriptor instead.
 func (*LoginLog) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *LoginLog) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *LoginLog) GetUserId() uint64 {
@@ -1090,20 +1098,21 @@ const file_user_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"A\n" +
 	"\x10LoginLogResponse\x12-\n" +
 	"\n" +
-	"login_logs\x18\x01 \x03(\v2\x0e.user.LoginLogR\tloginLogs\"\xff\x01\n" +
-	"\bLoginLog\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\x12\x17\n" +
-	"\aip_addr\x18\x03 \x01(\tR\x06ipAddr\x12\x1a\n" +
-	"\blocation\x18\x04 \x01(\tR\blocation\x12\x18\n" +
-	"\abrowser\x18\x05 \x01(\tR\abrowser\x12\x0e\n" +
-	"\x02os\x18\x06 \x01(\tR\x02os\x12\x1a\n" +
-	"\bplatform\x18\a \x01(\tR\bplatform\x12\x1d\n" +
+	"login_logs\x18\x01 \x03(\v2\x0e.user.LoginLogR\tloginLogs\"\x8f\x02\n" +
+	"\bLoginLog\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x04R\x06userId\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12\x17\n" +
+	"\aip_addr\x18\x04 \x01(\tR\x06ipAddr\x12\x1a\n" +
+	"\blocation\x18\x05 \x01(\tR\blocation\x12\x18\n" +
+	"\abrowser\x18\x06 \x01(\tR\abrowser\x12\x0e\n" +
+	"\x02os\x18\a \x01(\tR\x02os\x12\x1a\n" +
+	"\bplatform\x18\b \x01(\tR\bplatform\x12\x1d\n" +
 	"\n" +
-	"login_time\x18\b \x01(\x03R\tloginTime\x12\x16\n" +
-	"\x06remark\x18\t \x01(\tR\x06remark\x12\x10\n" +
-	"\x03msg\x18\n" +
-	" \x01(\tR\x03msg\"(\n" +
+	"login_time\x18\t \x01(\x03R\tloginTime\x12\x16\n" +
+	"\x06remark\x18\n" +
+	" \x01(\tR\x06remark\x12\x10\n" +
+	"\x03msg\x18\v \x01(\tR\x03msg\"(\n" +
 	"\x12GetLoginLogRequest\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x04R\x04page\"'\n" +
 	"\x15DeleteLoginLogRequest\x12\x0e\n" +
