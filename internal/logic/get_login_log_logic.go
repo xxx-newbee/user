@@ -58,7 +58,7 @@ func (l *GetLoginLogLogic) GetLoginLog(in *user.GetLoginLogRequest) (*user.Login
 	resp := &user.LoginLogResponse{}
 	for _, log := range logs {
 		resp.LoginLogs = append(resp.LoginLogs, &user.LoginLog{
-			Id:        log.ID,
+			Id:        uint64(log.ID),
 			UserId:    log.UserId,
 			Status:    log.Status,
 			IpAddr:    log.Ipaddr,
