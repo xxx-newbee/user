@@ -30,11 +30,13 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
-	var user_id uint64 = 0
+	var user_id = 0
 	var status = "2"
 	var msg = "登录成功"
 	// 日志入库
-	defer l.LoginLogToQueue(user_id, status, msg)
+	defer func() {
+		l.LoginLogToQueue(uint64(user_id), status, msg)
+	}()
 
 	// 检查验证码
 	ck := l.svcCtx.CaptchaStore.Verify(in.CaptchaId, in.CaptchaCode, true)
@@ -56,7 +58,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		msg = "username not found"
 		return nil, model.ErrUsernameOrPasswordIncorrect
 	}
-	user_id = uint64(res.ID)
+	user_id = int(res.ID)
 
 	if in.Password == "" {
 		status = "1"
@@ -114,7 +116,7 @@ func (l *LoginLogic) LoginLogToQueue(userId uint64, status, msg string) {
 	ll["status"] = status
 	ll["msg"] = msg
 	ll["userId"] = userId
-
+	l.Logger.Infof("user_id: %d", userId)
 	// 创建消息
 	message := &queue.Message{
 		Stream: model.SysLoginLogModel{}.TableName(),

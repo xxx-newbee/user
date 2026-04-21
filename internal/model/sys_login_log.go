@@ -73,7 +73,7 @@ func (o *defaultLoginLogModel) GetUserLoginLogs(id uint64, page int) ([]SysLogin
 	}
 	var ll []SysLoginLogModel
 
-	if err := o.db.Table(o.table).Where("userId = ?", id).Order("created_at desc").Offset((page - 1) * 10).Limit(10).Find(&ll).Error; err != nil {
+	if err := o.db.Table(o.table).Where("user_id = ?", id).Order("created_at desc").Offset((page - 1) * 10).Limit(10).Find(&ll).Error; err != nil {
 		return []SysLoginLogModel{}, err
 	}
 	return ll, nil
