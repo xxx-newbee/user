@@ -769,6 +769,254 @@ func (x *SendEmailResponse) GetSuccess() bool {
 	return false
 }
 
+type LoginLogResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LoginLogs     []*LoginLog            `protobuf:"bytes,1,rep,name=login_logs,json=loginLogs,proto3" json:"login_logs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginLogResponse) Reset() {
+	*x = LoginLogResponse{}
+	mi := &file_user_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginLogResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginLogResponse) ProtoMessage() {}
+
+func (x *LoginLogResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginLogResponse.ProtoReflect.Descriptor instead.
+func (*LoginLogResponse) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *LoginLogResponse) GetLoginLogs() []*LoginLog {
+	if x != nil {
+		return x.LoginLogs
+	}
+	return nil
+}
+
+type LoginLog struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	IpAddr        string                 `protobuf:"bytes,3,opt,name=ip_addr,json=ipAddr,proto3" json:"ip_addr,omitempty"`
+	Location      string                 `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty"`
+	Browser       string                 `protobuf:"bytes,5,opt,name=browser,proto3" json:"browser,omitempty"`
+	Os            string                 `protobuf:"bytes,6,opt,name=os,proto3" json:"os,omitempty"`
+	Platform      string                 `protobuf:"bytes,7,opt,name=platform,proto3" json:"platform,omitempty"`
+	LoginTime     int64                  `protobuf:"varint,8,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`
+	Remark        string                 `protobuf:"bytes,9,opt,name=remark,proto3" json:"remark,omitempty"`
+	Msg           string                 `protobuf:"bytes,10,opt,name=msg,proto3" json:"msg,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginLog) Reset() {
+	*x = LoginLog{}
+	mi := &file_user_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginLog) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginLog) ProtoMessage() {}
+
+func (x *LoginLog) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginLog.ProtoReflect.Descriptor instead.
+func (*LoginLog) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *LoginLog) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *LoginLog) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *LoginLog) GetIpAddr() string {
+	if x != nil {
+		return x.IpAddr
+	}
+	return ""
+}
+
+func (x *LoginLog) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+func (x *LoginLog) GetBrowser() string {
+	if x != nil {
+		return x.Browser
+	}
+	return ""
+}
+
+func (x *LoginLog) GetOs() string {
+	if x != nil {
+		return x.Os
+	}
+	return ""
+}
+
+func (x *LoginLog) GetPlatform() string {
+	if x != nil {
+		return x.Platform
+	}
+	return ""
+}
+
+func (x *LoginLog) GetLoginTime() int64 {
+	if x != nil {
+		return x.LoginTime
+	}
+	return 0
+}
+
+func (x *LoginLog) GetRemark() string {
+	if x != nil {
+		return x.Remark
+	}
+	return ""
+}
+
+func (x *LoginLog) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type GetLoginLogRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          uint64                 `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLoginLogRequest) Reset() {
+	*x = GetLoginLogRequest{}
+	mi := &file_user_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLoginLogRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLoginLogRequest) ProtoMessage() {}
+
+func (x *GetLoginLogRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLoginLogRequest.ProtoReflect.Descriptor instead.
+func (*GetLoginLogRequest) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetLoginLogRequest) GetPage() uint64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type DeleteLoginLogRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteLoginLogRequest) Reset() {
+	*x = DeleteLoginLogRequest{}
+	mi := &file_user_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteLoginLogRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteLoginLogRequest) ProtoMessage() {}
+
+func (x *DeleteLoginLogRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteLoginLogRequest.ProtoReflect.Descriptor instead.
+func (*DeleteLoginLogRequest) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DeleteLoginLogRequest) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 var File_user_proto protoreflect.FileDescriptor
 
 const file_user_proto_rawDesc = "" +
@@ -839,10 +1087,32 @@ const file_user_proto_rawDesc = "" +
 	"\x10SendEmailRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\"-\n" +
 	"\x11SendEmailResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\x94\x03\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"A\n" +
+	"\x10LoginLogResponse\x12-\n" +
+	"\n" +
+	"login_logs\x18\x01 \x03(\v2\x0e.user.LoginLogR\tloginLogs\"\xff\x01\n" +
+	"\bLoginLog\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12\x17\n" +
+	"\aip_addr\x18\x03 \x01(\tR\x06ipAddr\x12\x1a\n" +
+	"\blocation\x18\x04 \x01(\tR\blocation\x12\x18\n" +
+	"\abrowser\x18\x05 \x01(\tR\abrowser\x12\x0e\n" +
+	"\x02os\x18\x06 \x01(\tR\x02os\x12\x1a\n" +
+	"\bplatform\x18\a \x01(\tR\bplatform\x12\x1d\n" +
+	"\n" +
+	"login_time\x18\b \x01(\x03R\tloginTime\x12\x16\n" +
+	"\x06remark\x18\t \x01(\tR\x06remark\x12\x10\n" +
+	"\x03msg\x18\n" +
+	" \x01(\tR\x03msg\"(\n" +
+	"\x12GetLoginLogRequest\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x04R\x04page\"'\n" +
+	"\x15DeleteLoginLogRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x04R\x02id2\x91\x04\n" +
 	"\x04User\x129\n" +
 	"\bRegister\x12\x15.user.RegisterRequest\x1a\x16.user.RegisterResponse\x120\n" +
-	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\x125\n" +
+	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\x12?\n" +
+	"\vGetLoginLog\x12\x18.user.GetLoginLogRequest\x1a\x16.user.LoginLogResponse\x12:\n" +
+	"\x0eDeleteLoginLog\x12\x1b.user.DeleteLoginLogRequest\x1a\v.user.Empty\x125\n" +
 	"\vGetUserInfo\x12\v.user.Empty\x1a\x19.user.GetUserInfoResponse\x129\n" +
 	"\x0eUpdateUserInfo\x12\x1a.user.UpdateUserInfoReqest\x1a\v.user.Empty\x128\n" +
 	"\x0eChangePassword\x12\x19.user.ChangePassWdRequest\x1a\v.user.Empty\x125\n" +
@@ -861,40 +1131,49 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_user_proto_goTypes = []any{
-	(*Empty)(nil),                // 0: user.Empty
-	(*RegisterRequest)(nil),      // 1: user.RegisterRequest
-	(*RegisterResponse)(nil),     // 2: user.RegisterResponse
-	(*LoginRequest)(nil),         // 3: user.LoginRequest
-	(*LoginResponse)(nil),        // 4: user.LoginResponse
-	(*GetUserInfoResponse)(nil),  // 5: user.GetUserInfoResponse
-	(*UpdateUserInfoReqest)(nil), // 6: user.UpdateUserInfoReqest
-	(*ChangePassWdRequest)(nil),  // 7: user.ChangePassWdRequest
-	(*CaptchaResponse)(nil),      // 8: user.CaptchaResponse
-	(*SendEmailRequest)(nil),     // 9: user.SendEmailRequest
-	(*SendEmailResponse)(nil),    // 10: user.SendEmailResponse
+	(*Empty)(nil),                 // 0: user.Empty
+	(*RegisterRequest)(nil),       // 1: user.RegisterRequest
+	(*RegisterResponse)(nil),      // 2: user.RegisterResponse
+	(*LoginRequest)(nil),          // 3: user.LoginRequest
+	(*LoginResponse)(nil),         // 4: user.LoginResponse
+	(*GetUserInfoResponse)(nil),   // 5: user.GetUserInfoResponse
+	(*UpdateUserInfoReqest)(nil),  // 6: user.UpdateUserInfoReqest
+	(*ChangePassWdRequest)(nil),   // 7: user.ChangePassWdRequest
+	(*CaptchaResponse)(nil),       // 8: user.CaptchaResponse
+	(*SendEmailRequest)(nil),      // 9: user.SendEmailRequest
+	(*SendEmailResponse)(nil),     // 10: user.SendEmailResponse
+	(*LoginLogResponse)(nil),      // 11: user.LoginLogResponse
+	(*LoginLog)(nil),              // 12: user.LoginLog
+	(*GetLoginLogRequest)(nil),    // 13: user.GetLoginLogRequest
+	(*DeleteLoginLogRequest)(nil), // 14: user.DeleteLoginLogRequest
 }
 var file_user_proto_depIdxs = []int32{
-	1,  // 0: user.User.Register:input_type -> user.RegisterRequest
-	3,  // 1: user.User.Login:input_type -> user.LoginRequest
-	0,  // 2: user.User.GetUserInfo:input_type -> user.Empty
-	6,  // 3: user.User.UpdateUserInfo:input_type -> user.UpdateUserInfoReqest
-	7,  // 4: user.User.ChangePassword:input_type -> user.ChangePassWdRequest
-	0,  // 5: user.User.GenerateCaptcha:input_type -> user.Empty
-	9,  // 6: user.User.SendEmail:input_type -> user.SendEmailRequest
-	2,  // 7: user.User.Register:output_type -> user.RegisterResponse
-	4,  // 8: user.User.Login:output_type -> user.LoginResponse
-	5,  // 9: user.User.GetUserInfo:output_type -> user.GetUserInfoResponse
-	0,  // 10: user.User.UpdateUserInfo:output_type -> user.Empty
-	0,  // 11: user.User.ChangePassword:output_type -> user.Empty
-	8,  // 12: user.User.GenerateCaptcha:output_type -> user.CaptchaResponse
-	10, // 13: user.User.SendEmail:output_type -> user.SendEmailResponse
-	7,  // [7:14] is the sub-list for method output_type
-	0,  // [0:7] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	12, // 0: user.LoginLogResponse.login_logs:type_name -> user.LoginLog
+	1,  // 1: user.User.Register:input_type -> user.RegisterRequest
+	3,  // 2: user.User.Login:input_type -> user.LoginRequest
+	13, // 3: user.User.GetLoginLog:input_type -> user.GetLoginLogRequest
+	14, // 4: user.User.DeleteLoginLog:input_type -> user.DeleteLoginLogRequest
+	0,  // 5: user.User.GetUserInfo:input_type -> user.Empty
+	6,  // 6: user.User.UpdateUserInfo:input_type -> user.UpdateUserInfoReqest
+	7,  // 7: user.User.ChangePassword:input_type -> user.ChangePassWdRequest
+	0,  // 8: user.User.GenerateCaptcha:input_type -> user.Empty
+	9,  // 9: user.User.SendEmail:input_type -> user.SendEmailRequest
+	2,  // 10: user.User.Register:output_type -> user.RegisterResponse
+	4,  // 11: user.User.Login:output_type -> user.LoginResponse
+	11, // 12: user.User.GetLoginLog:output_type -> user.LoginLogResponse
+	0,  // 13: user.User.DeleteLoginLog:output_type -> user.Empty
+	5,  // 14: user.User.GetUserInfo:output_type -> user.GetUserInfoResponse
+	0,  // 15: user.User.UpdateUserInfo:output_type -> user.Empty
+	0,  // 16: user.User.ChangePassword:output_type -> user.Empty
+	8,  // 17: user.User.GenerateCaptcha:output_type -> user.CaptchaResponse
+	10, // 18: user.User.SendEmail:output_type -> user.SendEmailResponse
+	10, // [10:19] is the sub-list for method output_type
+	1,  // [1:10] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_user_proto_init() }
@@ -908,7 +1187,7 @@ func file_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_proto_rawDesc), len(file_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -80,10 +80,36 @@ message SendEmailResponse {
   bool success = 1;
 }
 
+message LoginLogResponse {
+  repeated LoginLog login_logs = 1;
+}
+
+message LoginLog {
+  uint64 user_id = 1;
+  string status = 2;
+  string ip_addr = 3;
+  string location = 4;
+  string browser = 5;
+  string os = 6;
+  string platform = 7;
+  int64  login_time = 8;
+  string remark = 9;
+  string msg = 10;
+}
+
+message GetLoginLogRequest {
+  uint64 page = 1;
+}
+
+message DeleteLoginLogRequest {
+  uint64 id = 1;
+}
 
 service User {
   rpc Register (RegisterRequest) returns (RegisterResponse);
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc GetLoginLog (GetLoginLogRequest) returns (LoginLogResponse);
+  rpc DeleteLoginLog (DeleteLoginLogRequest) returns (Empty);
   rpc GetUserInfo (Empty) returns (GetUserInfoResponse);
   rpc UpdateUserInfo (UpdateUserInfoReqest) returns (Empty);
   rpc ChangePassword (ChangePassWdRequest) returns (Empty);

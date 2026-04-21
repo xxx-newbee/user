@@ -7,13 +7,13 @@ import (
 )
 
 type JWTClaims struct {
-	UserID       int64  `json:"user_id"`
+	UserID       uint64 `json:"user_id"`
 	Username     string `json:"username"`
 	TokenVersion int    `json:"token_version"`
 	jwt.RegisteredClaims
 }
 
-func GenerateJWTToken(userID int64, username, secret string, version int) (string, error) {
+func GenerateJWTToken(userID uint64, username, secret string, version int) (string, error) {
 	claims := JWTClaims{
 		UserID:       userID,
 		Username:     username,

@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"errors"
 	"time"
 
 	"github.com/xxx-newbee/storage"
@@ -11,7 +12,7 @@ import (
 type (
 	SysLoginLogModel struct {
 		gorm.Model
-		Username      string    `json:"username" gorm:"size:128;comment:用户名"`
+		UserId        uint64    `json:"userId" gorm:"size:128;comment:用户id"`
 		Status        string    `json:"status" gorm:"size:4;comment:状态"`
 		Ipaddr        string    `json:"ipaddr" gorm:"size:255;comment:ip地址"`
 		LoginLocation string    `json:"loginLocation" gorm:"size:255;comment:归属地"`
@@ -25,6 +26,9 @@ type (
 
 	SysLoginLog interface {
 		SaveLoginLog(storage.Messager) error
+		DeleteLoginLog(id uint64) error
+		GetUserLoginLogs(id uint64, page int) ([]SysLoginLogModel, error)
+		GetLoginLogById(id uint64) (SysLoginLogModel, error)
 	}
 
 	defaultLoginLogModel struct {
@@ -57,4 +61,35 @@ func (o *defaultLoginLogModel) SaveLoginLog(msg storage.Messager) error {
 	}
 
 	return nil
+}
+
+func (o *defaultLoginLogModel) DeleteLoginLog(id uint64) error {
+	return o.db.Delete(&SysLoginLogModel{Model: gorm.Model{ID: uint(id)}}).Error
+}
+
+func (o *defaultLoginLogModel) GetUserLoginLogs(id uint64, page int) ([]SysLoginLogModel, error) {
+	if id == 0 {
+		return []SysLoginLogModel{}, nil
+	}
+	var ll []SysLoginLogModel
+
+	if err := o.db.Table(o.table).Where("userId = ?", id).Order("created_at desc").Offset((page - 1) * 10).Limit(10).Find(&ll).Error; err != nil {
+		return []SysLoginLogModel{}, err
+	}
+	return ll, nil
+}
+
+func (o *defaultLoginLogModel) GetLoginLogById(id uint64) (SysLoginLogModel, error) {
+	if id == 0 {
+		return SysLoginLogModel{}, nil
+	}
+
+	var ll SysLoginLogModel
+	if err := o.db.Table(o.table).Where("id = ?", id).First(&ll).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return SysLoginLogModel{}, nil
+		}
+		return SysLoginLogModel{}, err
+	}
+	return ll, nil
 }

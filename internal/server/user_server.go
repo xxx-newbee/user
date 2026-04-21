@@ -33,6 +33,16 @@ func (s *UserServer) Login(ctx context.Context, in *user.LoginRequest) (*user.Lo
 	return l.Login(in)
 }
 
+func (s *UserServer) GetLoginLog(ctx context.Context, in *user.GetLoginLogRequest) (*user.LoginLogResponse, error) {
+	l := logic.NewGetLoginLogLogic(ctx, s.svcCtx)
+	return l.GetLoginLog(in)
+}
+
+func (s *UserServer) DeleteLoginLog(ctx context.Context, in *user.DeleteLoginLogRequest) (*user.Empty, error) {
+	l := logic.NewDeleteLoginLogLogic(ctx, s.svcCtx)
+	return l.DeleteLoginLog(in)
+}
+
 func (s *UserServer) GetUserInfo(ctx context.Context, in *user.Empty) (*user.GetUserInfoResponse, error) {
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)

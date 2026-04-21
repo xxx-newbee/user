@@ -35,6 +35,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	var msg = "登录成功"
 	// 日志入库
 	defer l.LoginLogToQueue(username, status, msg)
+
 	// 检查验证码
 	ck := l.svcCtx.CaptchaStore.Verify(in.CaptchaId, in.CaptchaCode, true)
 	if ck != true {
@@ -42,6 +43,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		msg = model.ErrCaptchaIncorrect.Error()
 		return nil, model.ErrCaptchaIncorrect
 	}
+
 	// 获取用户
 	res, err := l.svcCtx.UserModel.GetByUsernameOrEmail(in.Username)
 	if err != nil {
@@ -54,6 +56,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 		msg = "username not found"
 		return nil, model.ErrUsernameOrPasswordIncorrect
 	}
+	username = res.Username
 
 	if in.Password == "" {
 		status = "1"
@@ -68,7 +71,7 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	}
 
 	// jwt token generation can be added here
-	token, err := utils.GenerateJWTToken(int64(res.ID), res.Username, l.svcCtx.Config.JWT.Secret, res.TokenVersion)
+	token, err := utils.GenerateJWTToken(uint64(res.ID), res.Username, l.svcCtx.Config.JWT.Secret, res.TokenVersion)
 	if err != nil {
 		return nil, err
 	}
