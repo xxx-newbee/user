@@ -21,7 +21,7 @@ func GenerateJWTToken(userID uint64, username, secret string, version int) (stri
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			Issuer:    "go-admin-micro/user",
+			Issuer:    "go-micro/user",
 		},
 	}
 
